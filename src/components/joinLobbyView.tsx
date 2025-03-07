@@ -1,14 +1,15 @@
 import {joinLobbyByCode} from "../database/lobbyConnector.ts";
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 export default function JoinLobbyView() {
     const [code, setCode] = useState("");
-    const [lobbyData, setLobbyData] = useState(null);
+    const navigate = useNavigate();
 
     const handleJoinLobby = async () => {
         const lobby = await joinLobbyByCode(code);
         if (lobby) {
-            setLobbyData(lobby);
+            navigate(`/lobby/${lobby.id}`);
         } else {
             alert("Lobby not found");
         }
@@ -24,8 +25,6 @@ export default function JoinLobbyView() {
                 onChange={(e) => setCode(e.target.value)}
             />
             <button onClick={handleJoinLobby}>Join</button>
-
-            {lobbyData && <div>Lobby Name: {lobbyData.name}</div>}
         </div>
     );
 };

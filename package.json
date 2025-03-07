@@ -15,7 +15,7 @@
     "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-qrcode": "^0.3.6",
+    "react-router-dom": "^7.3.0",
     "tailwindcss": "^4.0.9"
   },
   "devDependencies": {

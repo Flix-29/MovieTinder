@@ -1,16 +1,14 @@
 import {useState} from "react";
 import {createLobby} from "../database/lobbyConnector.ts";
-import {QRCode} from "react-qrcode";
+import {QRCodeCanvas} from "qrcode.react";
 
 export default function CreateLobbyView() {
-    let created = false;
     const [lobby, setLobby] = useState(undefined);
 
     const createLobbyButton = async () => {
         const lobby = await createLobby();
         if (lobby) {
             setLobby(lobby);
-            created = true;
         } else {
             alert("Error creating lobby");
         }
@@ -26,7 +24,6 @@ export default function CreateLobbyView() {
                 >
                     Create Lobby
                 </button>
-                <p>{created}</p>
             </div>
         );
     } else {
@@ -34,10 +31,11 @@ export default function CreateLobbyView() {
         return (
             <div>
                 <h2>Lobby created!</h2>
+                <p>Join by entering the code or scanning the qr-code below.</p>
                 <p>Code: {lobby.code}</p>
                 <p>{linkToLobby}</p>
-                <p>{created}</p>
-                <QRCode value={linkToLobby} />
+                <QRCodeCanvas value={linkToLobby} />
+                <button onClick={() => {}}>Start Swiping</button>
             </div>
         )
     }
