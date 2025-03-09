@@ -14,8 +14,7 @@ export const createLobby = async (): Promise<Lobby|null> => {
         return null
     }
 
-    console.log(data);
-    return {id:data.id, created_at: data.created_at, name: data.name, code: data.code};
+    return {id:data.id, created_at: data.created_at, name: data.name, code: data.code, started: data.started};
 };
 
 const generateLobbyCode = () => {

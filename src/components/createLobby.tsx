@@ -1,9 +1,13 @@
 import {useState} from "react";
 import {createLobby} from "../database/lobbyConnector.ts";
 import {QRCodeCanvas} from "qrcode.react";
+import Lobby from "../model/Lobby.ts";
+import {useNavigate} from 'react-router-dom'
+import {supabase} from "../database/supabaseClient.ts";
 
 export default function CreateLobbyView() {
-    const [lobby, setLobby] = useState(undefined);
+    const [lobby, setLobby] = useState<Lobby>();
+    const navigate = useNavigate();
 
     const createLobbyButton = async () => {
         const lobby = await createLobby();
@@ -12,6 +16,20 @@ export default function CreateLobbyView() {
         } else {
             alert("Error creating lobby");
         }
+    }
+
+    async function startLobby(lobbyId: string) {
+        const {error} = await supabase
+            .from("lobbies")
+            .update({started: true})
+            .eq("id", lobbyId)
+
+        if (error) {
+            console.error("Error starting lobby:", error);
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 500));
+        navigate(`/lobby/${lobbyId}`);
     }
 
     if (lobby === undefined) {
@@ -34,8 +52,12 @@ export default function CreateLobbyView() {
                 <p>Join by entering the code or scanning the qr-code below.</p>
                 <p>Code: {lobby.code}</p>
                 <p>{linkToLobby}</p>
-                <QRCodeCanvas value={linkToLobby} />
-                <button onClick={() => {}}>Start Swiping</button>
+                <QRCodeCanvas value={linkToLobby}/>
+                <button onClick={() => {
+                    startLobby(lobby.id)
+                }}>
+                    Start Swiping
+                </button>
             </div>
         )
     }

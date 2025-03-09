@@ -3,4 +3,5 @@ export default interface Lobby {
     created_at: string,
     name: string,
     code: number
+    started: boolean
 }
