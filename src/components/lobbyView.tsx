@@ -59,7 +59,7 @@ export default function LobbyView() {
         return () => {
             supabase.removeChannel(subscription);
         };
-    });
+    }, [id, page]);
 
     useEffect(() => {
         const likeSubscription = supabase
@@ -79,7 +79,6 @@ export default function LobbyView() {
 
                 if (data && data.length >= 2) {
                     const movie = movies.find(movie => movie.id === parseInt(payload.new.movie_id));
-                    console.log()
                     await supabase
                         .from("matches")
                         .insert({
@@ -97,7 +96,7 @@ export default function LobbyView() {
         return () => {
             supabase.removeChannel(likeSubscription);
         }
-    }, [movies, lobby?.id, matchedMovie]);
+    }, [movies, lobby?.id]);
 
     const fetchMovies = async () => {
         const filter = {
