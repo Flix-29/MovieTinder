@@ -52,6 +52,12 @@ export default function LobbyView() {
             })
             .subscribe();
 
+        return () => {
+            supabase.removeChannel(subscription);
+        };
+    }, [id, page]);
+
+    useEffect(() => {
         const likeSubscription = supabase
             .channel("vote_updates")
             .on("postgres_changes", {
@@ -60,8 +66,6 @@ export default function LobbyView() {
                 table: "votes",
                 filter: `lobby_id=eq.${lobby?.id}`
             }, async (payload) => {
-                console.log(lobby?.id);
-                console.log(payload.new.movie_id)
                 const {data} = await supabase
                     .from("votes")
                     .select()
@@ -70,21 +74,15 @@ export default function LobbyView() {
                     .eq("vote", true);
 
                 if (data && data.length >= 2) {
-                    const movie = movies.find(m => m.id === payload.new.movie_id);
-                    console.log(movie)
-                    alert(`Match found! "${movies.find(m => m.id === payload.new.movie_id)}"`);
+                    const movie = movies.find(movie => movie.id === parseInt(payload.new.movie_id));
+                    alert(`Match found! "${movie?.title}" was liked by all participants!`);
                 }
             })
             .subscribe();
 
         return () => {
             supabase.removeChannel(likeSubscription);
-            supabase.removeChannel(subscription);
-        };
-    }, [id, page, movies, lobby?.id]);
-
-    useEffect(() => {
-
+        }
     }, [movies, lobby?.id]);
 
     const fetchMovies = async () => {
