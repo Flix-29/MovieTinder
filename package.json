@@ -1,10 +1,12 @@
 {
   "name": "movietinder",
-  "private": true,
+  "homepage": "https://movie-tinder.flix29.de",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist --cname movie-tinder.flix29.de",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -13,6 +15,7 @@
     "@headlessui/react": "^2.2.0",
     "@supabase/supabase-js": "^2.49.1",
     "@tailwindcss/vite": "^4.0.9",
+    "gh-pages": "^6.3.0",
     "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

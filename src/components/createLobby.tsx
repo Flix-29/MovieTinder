@@ -45,7 +45,7 @@ export default function CreateLobbyView() {
             </div>
         );
     } else {
-        const linkToLobby = `https://link-to-url.de/${lobby.id}`;
+        const linkToLobby = `${window.location.href}#/lobby/${lobby.id}`;
         return (
             <div>
                 <h2>Lobby created!</h2>
