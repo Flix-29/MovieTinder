@@ -8,7 +8,7 @@ export async function getMoviesFromPage(filter: Filter): Promise<Array<Movie>> {
         headers: {
             accept: 'application/json',
             Authorization:
-                'Bearer '+ import.meta.env.VITE_API_KEY
+                'Bearer '+ process.env.TMDB_API_KEY
         }
     }
 
