@@ -4,7 +4,6 @@ import {Dialog, DialogPanel, DialogBackdrop, DialogTitle} from "@headlessui/reac
 import {supabase} from "../database/supabaseClient";
 import Lobby from "../model/Lobby.ts";
 import {Movie} from "../model/Movie.ts";
-import {getMoviesFromPage} from "../logic/MovieDBRequest.ts";
 
 export default function LobbyView() {
     const {id} = useParams();
@@ -99,17 +98,27 @@ export default function LobbyView() {
     }, [movies, lobby?.id]);
 
     const fetchMovies = async () => {
-        const filter = {
-            include_adult: false,
-            include_video: false,
-            language: 'de-DE',
-            pageNumber: page,
-            watch_region: 'DE'
-        }
-        const movies = await getMoviesFromPage(filter)
+        try {
+            const response = await fetch("https://tmdb-proxy-backend-git-main-flix-29s-projects.vercel.app/", {
+                method: "GET",
+            });
 
-        setMovies(movies);
-    }
+            if (!response.ok) {
+                console.error("Failed to fetch movies. Status:", response.status);
+                return;
+            }
+
+            const movies = await response.json();
+            if (!movies || movies.length === 0 || !movies.results || movies.results.length === 0) {
+                console.error("No movies available.");
+                return;
+            }
+
+            setMovies(movies.results);
+        } catch (error) {
+            console.error("Error fetching movies:", error);
+        }
+    };
 
     const handleVote = async (liked: boolean) => {
         if (!lobby) return;
@@ -144,6 +153,7 @@ export default function LobbyView() {
     if (loading) return <p>Loading lobby...</p>;
     if (!lobby) return <p>Lobby not found</p>;
     if (!lobby.started) return <p>Waiting for host to start...</p>;
+    if (movies.length === 0) return <p>Loading movies...</p>;
 
     return (
         <div>

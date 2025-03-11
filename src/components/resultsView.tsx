@@ -33,7 +33,6 @@ export default function ResultsView() {
                 table: "lobbies",
                 filter: `id=eq.${id}`
             }, () => {
-                console.log("deleted")
                 navigate("/");
             })
 
