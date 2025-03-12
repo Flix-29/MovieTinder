@@ -98,7 +98,7 @@ export default function LobbyView() {
     }, [movies, lobby?.id]);
 
     const fetchMovies = async () => {
-        const response = await fetch("https://tmdb-proxy-backend-git-main-flix-29s-projects.vercel.app/", {
+        const response = await fetch("https://api.movie-tinder.flix29.de", {
             method: "GET",
         });
 
