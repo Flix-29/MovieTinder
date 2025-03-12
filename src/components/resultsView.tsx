@@ -16,7 +16,7 @@ export default function ResultsView() {
                 .eq("lobby_id", id)
 
             if (error) {
-                console.error("Error fetching matches:", error);
+                throw error;
             }
 
             if (data) {
@@ -58,7 +58,7 @@ export default function ResultsView() {
             .select();
 
         if (error) {
-            console.error("Error deleting votes:", error);
+            throw error;
         }
 
         return data?.map(data => data.user_id);
@@ -75,7 +75,7 @@ export default function ResultsView() {
             .in("id", userIds);
 
         if (error) {
-            console.error("Error deleting user:", error);
+            throw error;
         }
     }
 
@@ -86,7 +86,7 @@ export default function ResultsView() {
             .eq("lobby_id", id);
 
         if (error) {
-            console.error("Error deleting matches:", error);
+            throw error;
         }
     }
 
@@ -97,7 +97,7 @@ export default function ResultsView() {
             .eq("id", id);
 
         if (error) {
-            console.error("Error deleting lobby:", error);
+            throw error;
         }
     }
 

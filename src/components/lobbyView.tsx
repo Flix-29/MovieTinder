@@ -25,7 +25,7 @@ export default function LobbyView() {
                 .single();
 
             if (error) {
-                console.error("Error fetching lobby:", error);
+                throw error;
             } else {
                 setLobby(data);
             }
@@ -98,26 +98,20 @@ export default function LobbyView() {
     }, [movies, lobby?.id]);
 
     const fetchMovies = async () => {
-        try {
-            const response = await fetch("https://tmdb-proxy-backend-git-main-flix-29s-projects.vercel.app/", {
-                method: "GET",
-            });
+        const response = await fetch("https://tmdb-proxy-backend-git-main-flix-29s-projects.vercel.app/", {
+            method: "GET",
+        });
 
-            if (!response.ok) {
-                console.error("Failed to fetch movies. Status:", response.status);
-                return;
-            }
-
-            const movies = await response.json();
-            if (!movies || movies.length === 0 || !movies.results || movies.results.length === 0) {
-                console.error("No movies available.");
-                return;
-            }
-
-            setMovies(movies.results);
-        } catch (error) {
-            console.error("Error fetching movies:", error);
+        if (!response.ok) {
+            throw new Error("Failed to fetch movies. Status:" + response.status);
         }
+
+        const movies = await response.json();
+        if (!movies || movies.length === 0 || !movies.results || movies.results.length === 0) {
+            throw new Error("No movies available.");
+        }
+
+        setMovies(movies.results);
     };
 
     const handleVote = async (liked: boolean) => {
@@ -134,8 +128,7 @@ export default function LobbyView() {
             ]);
 
         if (error) {
-            console.error("Error voting:", error);
-            return;
+            throw error;
         }
 
         setCurrentIndex(getNextIndex());

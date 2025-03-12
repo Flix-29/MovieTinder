@@ -25,7 +25,7 @@ export default function CreateLobbyView() {
             .eq("id", lobbyId)
 
         if (error) {
-            console.error("Error starting lobby:", error);
+            throw error;
         }
 
         await new Promise(resolve => setTimeout(resolve, 500));

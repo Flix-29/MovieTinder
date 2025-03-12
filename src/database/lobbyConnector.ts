@@ -10,8 +10,7 @@ export const createLobby = async (): Promise<Lobby|null> => {
         .single();
 
     if (error) {
-        console.error('Error creating lobby:', error.message);
-        return null
+        throw error;
     }
 
     return {id:data.id, created_at: data.created_at, name: data.name, code: data.code, started: data.started};
@@ -29,8 +28,7 @@ export const joinLobbyByCode = async (code: string) => {
         .single();
 
     if (error) {
-        console.error("Error joining lobby:", error);
-        return null;
+        throw error;
     }
 
     return data;
