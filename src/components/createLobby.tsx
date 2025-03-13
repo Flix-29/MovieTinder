@@ -9,13 +9,17 @@ export default function CreateLobbyView() {
     const [lobby, setLobby] = useState<Lobby>();
     const navigate = useNavigate();
 
-    const createLobbyButton = async () => {
+    const buildLobby = async () => {
         const lobby = await createLobby();
         if (lobby) {
             setLobby(lobby);
         } else {
             alert("Error creating lobby");
         }
+    };
+
+    if (!lobby) {
+        buildLobby();
     }
 
     async function startLobby(lobbyId: string) {
@@ -34,18 +38,10 @@ export default function CreateLobbyView() {
 
     if (lobby === undefined) {
         return (
-            <div>
-                <button
-                    onClick={() => {
-                        createLobbyButton()
-                    }}
-                >
-                    Create Lobby
-                </button>
-            </div>
+            <p>Waiting for Lobby to be created...</p>
         );
     } else {
-        const linkToLobby = `${window.location.href}#/lobby/${lobby.id}`;
+        const linkToLobby = `${window.location.href.substring(0, window.location.href.lastIndexOf("/#/"))}/#/lobby/${lobby.id}`;
         return (
             <div>
                 <h2>Lobby created!</h2>

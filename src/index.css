@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+@theme {
+    --color-blue-violet: #471871;
+    --color-rebecca: #653496;
+    --color-royal-purple: #7B52AE;
+    --color-maximum-green: #56941E;
+    --color-bud-green: #74B652;
+    --color-pistachio: #94C773;
+}
+
+body {
+    @apply max-w-4xl min-h-screen p-8 mx-auto text-center bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-gray-300
+}
