@@ -16,12 +16,11 @@ export default function HomeView() {
     };
 
     return (
-        <div className="mt-5">
-            <div className="mb-40">
+        <div className="mt-40">
+            <div className="mb-16">
                 <h1 className="mb-12 text-4xl font-extrabold leading-none tracking-tight md:text-5xl lg:text-6xl">Movie Tinder</h1>
-                <p className="mb-3">Welcome to Movie Tinder!</p>
-                <p className="mb-3">Swipe on movies to find some you all like.</p>
-                <p className="mb-3">Create a lobby or join one to get started.</p>
+                <p className="text-xl m-auto mb-3 max-w-3/5">Swipe on movies to find some you all like.</p>
+                <p className="text-xl m-auto mb-3 max-w-3/5">Create a lobby or join one to get started.</p>
             </div>
             <div className="mb-8">
                 <input
