@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "flowbite/src/themes/default.css";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
 
 @theme {
     --color-blue-violet: #471871;
@@ -10,5 +13,5 @@
 }
 
 body {
-    @apply max-w-4xl min-h-screen p-8 mx-auto text-center bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-gray-300
+    @apply max-w-4xl min-h-screen mx-auto text-center bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-gray-300
 }

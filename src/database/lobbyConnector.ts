@@ -28,7 +28,7 @@ export const joinLobbyByCode = async (code: string) => {
         .single();
 
     if (error) {
-        throw error;
+        return null;
     }
 
     return data;
