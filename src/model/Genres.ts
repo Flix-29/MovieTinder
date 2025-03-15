@@ -1,0 +1,21 @@
+export const movieGenres = new Map<number, string>();
+
+movieGenres.set(12, "Abenteuer");
+movieGenres.set(14, "Fantasy");
+movieGenres.set(16, "Animation");
+movieGenres.set(18, "Drama");
+movieGenres.set(27, "Horror");
+movieGenres.set(28, "Action");
+movieGenres.set(35, "Komödie");
+movieGenres.set(36, "Historie");
+movieGenres.set(37, "Western");
+movieGenres.set(53, "Thriller");
+movieGenres.set(80, "Krimi");
+movieGenres.set(99, "Dokumentarfilm");
+movieGenres.set(878, "Science Fiction");
+movieGenres.set(9648, "Mystery");
+movieGenres.set(10402, "Musik");
+movieGenres.set(10749, "Liebesfilm");
+movieGenres.set(10751, "Familie");
+movieGenres.set(10752, "Kriegsfilm");
+movieGenres.set(10770, "TV-Film");
