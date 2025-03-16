@@ -203,7 +203,7 @@ export default function LobbyView() {
             </div>
             <img
                 className="m-auto h-screen max-w-screen"
-                src={"https://image.tmdb.org/t/p/w500/" + currentMovie.poster_path}
+                src={"https://image.tmdb.org/t/p/original/" + currentMovie.poster_path}
             />
             <Dialog open={detailDialogOpen} onClose={setDetailDialogOpen} className={"relative z-20"}>
                 <DialogBackdrop
