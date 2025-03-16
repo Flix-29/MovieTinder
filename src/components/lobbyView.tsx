@@ -8,6 +8,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {faThumbsUp} from "@fortawesome/free-solid-svg-icons";
 import {movieGenres} from "../model/Genres.ts";
+import {Filter} from "../model/Filter.ts";
+import {getProviderId} from "../model/Provider.ts";
 
 export default function LobbyView() {
     const {id} = useParams();
@@ -103,7 +105,14 @@ export default function LobbyView() {
     }, [movies, lobby?.id]);
 
     const fetchMovies = async () => {
-        const response = await fetch("https://api.movie-tinder.flix29.de", {
+        const filter: Filter = {
+            include_adult: false,
+            language: "en-US",
+            pageNumber: page,
+            watch_region: "US",
+        }
+        const url = applyFilterToRequest("https://api.movie-tinder.flix29.de?", filter)
+        const response = await fetch(url, {
             method: "GET",
         });
 
@@ -118,6 +127,26 @@ export default function LobbyView() {
 
         setMovies(movies.results);
     };
+
+    function applyFilterToRequest(baseUrl: string, filter: Filter): string {
+        let requestUrlWithFilter = baseUrl
+
+        requestUrlWithFilter += `include_adult=${filter.include_adult}`
+        requestUrlWithFilter += `&language=${filter.language}`
+        requestUrlWithFilter += `&page=${filter.pageNumber}`
+        requestUrlWithFilter += `&sort_by=popularity.desc`
+        requestUrlWithFilter += `&watch_region=${filter.watch_region}`
+
+        if (filter.provider != null) {
+            requestUrlWithFilter += `&with_watch_providers=`
+            filter.provider.forEach(provider => {
+                requestUrlWithFilter += `${getProviderId(provider).replace(' ', '')}|`
+            })
+            requestUrlWithFilter = requestUrlWithFilter.substring(0, requestUrlWithFilter.length - 1)
+        }
+
+        return requestUrlWithFilter
+    }
 
     const handleVote = async (liked: boolean) => {
         if (!lobby) return;
