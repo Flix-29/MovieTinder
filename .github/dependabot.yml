@@ -11,6 +11,6 @@ updates:
     commit-message:
       prefix: "npm dependency"
     ignore:
-      update-types: [ "version-update:semver-patch" ]
+      - update-types: [ "version-update:semver-patch" ]
     labels:
       - "dependency"
