@@ -1,108 +1,115 @@
-export const languageMap: Map<string, string> = new Map();
+export const languageAndRegions: LanguageAndRegion[] = [
+    {languageAndRegionCode: "af-ZA", regionCode: "ZA", languageAndRegion: "Afrikaans (South Africa)", region: "South Africa"},
+    {languageAndRegionCode: "am-ET", regionCode: "ET", languageAndRegion: "Amharic (Ethiopia)", region: "Ethiopia"},
+    {languageAndRegionCode: "ar-AE", regionCode: "AE", languageAndRegion: "Arabic (United Arab Emirates)", region: "United Arab Emirates"},
+    {languageAndRegionCode: "ar-SA", regionCode: "SA", languageAndRegion: "Arabic (Saudi Arabia)", region: "Saudi Arabia"},
+    {languageAndRegionCode: "az-AZ", regionCode: "AZ", languageAndRegion: "Azerbaijani (Azerbaijan)", region: "Azerbaijan"},
+    {languageAndRegionCode: "be-BY", regionCode: "BY", languageAndRegion: "Belarusian (Belarus)", region: "Belarus"},
+    {languageAndRegionCode: "bg-BG", regionCode: "BG", languageAndRegion: "Bulgarian (Bulgaria)", region: "Bulgaria"},
+    {languageAndRegionCode: "bn-BD", regionCode: "BD", languageAndRegion: "Bengali (Bangladesh)", region: "Bangladesh"},
+    {languageAndRegionCode: "bs-BA", regionCode: "BA", languageAndRegion: "Bosnian (Bosnia and Herzegovina)", region: "Bosnia and Herzegovina"},
+    {languageAndRegionCode: "ca-ES", regionCode: "ES", languageAndRegion: "Catalan (Spain)", region: "Spain"},
+    {languageAndRegionCode: "cs-CZ", regionCode: "CZ", languageAndRegion: "Czech (Czech Republic)", region: "Czech Republic"},
+    {languageAndRegionCode: "cy-GB", regionCode: "GB", languageAndRegion: "Welsh (United Kingdom)", region: "United Kingdom"},
+    {languageAndRegionCode: "da-DK", regionCode: "DK", languageAndRegion: "Danish (Denmark)", region: "Denmark"},
+    {languageAndRegionCode: "de-AT", regionCode: "AT", languageAndRegion: "German (Austria)", region: "Austria"},
+    {languageAndRegionCode: "de-CH", regionCode: "CH", languageAndRegion: "German (Switzerland)", region: "Switzerland"},
+    {languageAndRegionCode: "de-DE", regionCode: "DE", languageAndRegion: "German (Germany)", region: "Germany"},
+    {languageAndRegionCode: "el-GR", regionCode: "GR", languageAndRegion: "Greek (Greece)", region: "Greece"},
+    {languageAndRegionCode: "en-AU", regionCode: "AU", languageAndRegion: "English (Australia)", region: "Australia"},
+    {languageAndRegionCode: "en-CA", regionCode: "CA", languageAndRegion: "English (Canada)", region: "Canada"},
+    {languageAndRegionCode: "en-GB", regionCode: "GB", languageAndRegion: "English (United Kingdom)", region: "United Kingdom"},
+    {languageAndRegionCode: "en-IE", regionCode: "IE", languageAndRegion: "English (Ireland)", region: "Ireland"},
+    {languageAndRegionCode: "en-IN", regionCode: "IN", languageAndRegion: "English (India)", region: "India"},
+    {languageAndRegionCode: "en-NZ", regionCode: "NZ", languageAndRegion: "English (New Zealand)", region: "New Zealand"},
+    {languageAndRegionCode: "en-US", regionCode: "US", languageAndRegion: "English (United States)", region: "United States"},
+    {languageAndRegionCode: "es-AR", regionCode: "AR", languageAndRegion: "Spanish (Argentina)", region: "Argentina"},
+    {languageAndRegionCode: "es-CL", regionCode: "CL", languageAndRegion: "Spanish (Chile)", region: "Chile"},
+    {languageAndRegionCode: "es-CO", regionCode: "CO", languageAndRegion: "Spanish (Colombia)", region: "Colombia"},
+    {languageAndRegionCode: "es-ES", regionCode: "ES", languageAndRegion: "Spanish (Spain)", region: "Spain"},
+    {languageAndRegionCode: "es-MX", regionCode: "MX", languageAndRegion: "Spanish (Mexico)", region: "Mexico"},
+    {languageAndRegionCode: "es-PE", regionCode: "PE", languageAndRegion: "Spanish (Peru)", region: "Peru"},
+    {languageAndRegionCode: "et-EE", regionCode: "EE", languageAndRegion: "Estonian (Estonia)", region: "Estonia"},
+    {languageAndRegionCode: "eu-ES", regionCode: "ES", languageAndRegion: "Basque (Spain)", region: "Spain"},
+    {languageAndRegionCode: "fa-IR", regionCode: "IR", languageAndRegion: "Persian (Iran)", region: "Iran"},
+    {languageAndRegionCode: "fi-FI", regionCode: "FI", languageAndRegion: "Finnish (Finland)", region: "Finland"},
+    {languageAndRegionCode: "fr-BE", regionCode: "BE", languageAndRegion: "French (Belgium)", region: "Belgium"},
+    {languageAndRegionCode: "fr-CA", regionCode: "CA", languageAndRegion: "French (Canada)", region: "Canada"},
+    {languageAndRegionCode: "fr-CH", regionCode: "CH", languageAndRegion: "French (Switzerland)", region: "Switzerland"},
+    {languageAndRegionCode: "fr-FR", regionCode: "FR", languageAndRegion: "French (France)", region: "France"},
+    {languageAndRegionCode: "ga-IE", regionCode: "IE", languageAndRegion: "Irish (Ireland)", region: "Ireland"},
+    {languageAndRegionCode: "gl-ES", regionCode: "ES", languageAndRegion: "Galician (Spain)", region: "Spain"},
+    {languageAndRegionCode: "gu-IN", regionCode: "IN", languageAndRegion: "Gujarati (India)", region: "India"},
+    {languageAndRegionCode: "he-IL", regionCode: "IL", languageAndRegion: "Hebrew (Israel)", region: "Israel"},
+    {languageAndRegionCode: "hi-IN", regionCode: "IN", languageAndRegion: "Hindi (India)", region: "India"},
+    {languageAndRegionCode: "hr-HR", regionCode: "HR", languageAndRegion: "Croatian (Croatia)", region: "Croatia"},
+    {languageAndRegionCode: "hu-HU", regionCode: "HU", languageAndRegion: "Hungarian (Hungary)", region: "Hungary"},
+    {languageAndRegionCode: "hy-AM", regionCode: "AM", languageAndRegion: "Armenian (Armenia)", region: "Armenia"},
+    {languageAndRegionCode: "id-ID", regionCode: "ID", languageAndRegion: "Indonesian (Indonesia)", region: "Indonesia"},
+    {languageAndRegionCode: "is-IS", regionCode: "IS", languageAndRegion: "Icelandic (Iceland)", region: "Iceland"},
+    {languageAndRegionCode: "it-CH", regionCode: "CH", languageAndRegion: "Italian (Switzerland)", region: "Switzerland"},
+    {languageAndRegionCode: "it-IT", regionCode: "IT", languageAndRegion: "Italian (Italy)", region: "Italy"},
+    {languageAndRegionCode: "ja-JP", regionCode: "JP", languageAndRegion: "Japanese (Japan)", region: "Japan"},
+    {languageAndRegionCode: "jv-ID", regionCode: "ID", languageAndRegion: "Javanese (Indonesia)", region: "Indonesia"},
+    {languageAndRegionCode: "ka-GE", regionCode: "GE", languageAndRegion: "Georgian (Georgia)", region: "Georgia"},
+    {languageAndRegionCode: "kk-KZ", regionCode: "KZ", languageAndRegion: "Kazakh (Kazakhstan)", region: "Kazakhstan"},
+    {languageAndRegionCode: "km-KH", regionCode: "KH", languageAndRegion: "Khmer (Cambodia)", region: "Cambodia"},
+    {languageAndRegionCode: "kn-IN", regionCode: "IN", languageAndRegion: "Kannada (India)", region: "India"},
+    {languageAndRegionCode: "ko-KR", regionCode: "KR", languageAndRegion: "Korean (South Korea)", region: "South Korea"},
+    {languageAndRegionCode: "ku-TR", regionCode: "TR", languageAndRegion: "Kurdish (Turkey)", region: "Turkey"},
+    {languageAndRegionCode: "ky-KG", regionCode: "KG", languageAndRegion: "Kyrgyz (Kyrgyzstan)", region: "Kyrgyzstan"},
+    {languageAndRegionCode: "la-VA", regionCode: "VA", languageAndRegion: "Latin (Vatican)", region: "Vatican"},
+    {languageAndRegionCode: "lb-LU", regionCode: "LU", languageAndRegion: "Luxembourgish (Luxembourg)", region: "Luxembourg"},
+    {languageAndRegionCode: "lo-LA", regionCode: "LA", languageAndRegion: "Lao (Laos)", region: "Laos"},
+    {languageAndRegionCode: "lt-LT", regionCode: "LT", languageAndRegion: "Lithuanian (Lithuania)", region: "Lithuania"},
+    {languageAndRegionCode: "lv-LV", regionCode: "LV", languageAndRegion: "Latvian (Latvia)", region: "Latvia"},
+    {languageAndRegionCode: "mg-MG", regionCode: "MG", languageAndRegion: "Malagasy (Madagascar)", region: "Madagascar"},
+    {languageAndRegionCode: "mk-MK", regionCode: "MK", languageAndRegion: "Macedonian (North Macedonia)", region: "North Macedonia"},
+    {languageAndRegionCode: "ml-IN", regionCode: "IN", languageAndRegion: "Malayalam (India)", region: "India"},
+    {languageAndRegionCode: "mn-MN", regionCode: "MN", languageAndRegion: "Mongolian (Mongolia)", region: "Mongolia"},
+    {languageAndRegionCode: "mr-IN", regionCode: "IN", languageAndRegion: "Marathi (India)", region: "India"},
+    {languageAndRegionCode: "ms-MY", regionCode: "MY", languageAndRegion: "Malay (Malaysia)", region: "Malaysia"},
+    {languageAndRegionCode: "mt-MT", regionCode: "MT", languageAndRegion: "Maltese (Malta)", region: "Malta"},
+    {languageAndRegionCode: "my-MM", regionCode: "MM", languageAndRegion: "Burmese (Myanmar)", region: "Myanmar"},
+    {languageAndRegionCode: "nb-NO", regionCode: "NO", languageAndRegion: "Norwegian Bokmål (Norway)", region: "Norway"},
+    {languageAndRegionCode: "ne-NP", regionCode: "NP", languageAndRegion: "Nepali (Nepal)", region: "Nepal"},
+    {languageAndRegionCode: "nl-BE", regionCode: "BE", languageAndRegion: "Dutch (Belgium)", region: "Belgium"},
+    {languageAndRegionCode: "nl-NL", regionCode: "NL", languageAndRegion: "Dutch (Netherlands)", region: "Netherlands"},
+    {languageAndRegionCode: "nn-NO", regionCode: "NO", languageAndRegion: "Norwegian Nynorsk (Norway)", region: "Norway"},
+    {languageAndRegionCode: "or-IN", regionCode: "IN", languageAndRegion: "Odia (India)", region: "India"},
+    {languageAndRegionCode: "pa-IN", regionCode: "IN", languageAndRegion: "Punjabi (India)", region: "India"},
+    {languageAndRegionCode: "pl-PL", regionCode: "PL", languageAndRegion: "Polish (Poland)", region: "Poland"},
+    {languageAndRegionCode: "ps-AF", regionCode: "AF", languageAndRegion: "Pashto (Afghanistan)", region: "Afghanistan"},
+    {languageAndRegionCode: "pt-BR", regionCode: "BR", languageAndRegion: "Portuguese (Brazil)", region: "Brazil"},
+    {languageAndRegionCode: "pt-PT", regionCode: "PT", languageAndRegion: "Portuguese (Portugal)", region: "Portugal"},
+    {languageAndRegionCode: "ro-RO", regionCode: "RO", languageAndRegion: "Romanian (Romania)", region: "Romania"},
+    {languageAndRegionCode: "ru-RU", regionCode: "RU", languageAndRegion: "Russian (Russia)", region: "Russia"},
+    {languageAndRegionCode: "si-LK", regionCode: "LK", languageAndRegion: "Sinhala (Sri Lanka)", region: "Sri Lanka"},
+    {languageAndRegionCode: "sk-SK", regionCode: "SK", languageAndRegion: "Slovak (Slovakia)", region: "Slovakia"},
+    {languageAndRegionCode: "sl-SI", regionCode: "SI", languageAndRegion: "Slovenian (Slovenia)", region: "Slovenia"},
+    {languageAndRegionCode: "sq-AL", regionCode: "AL", languageAndRegion: "Albanian (Albania)", region: "Albania"},
+    {languageAndRegionCode: "sr-RS", regionCode: "RS", languageAndRegion: "Serbian (Serbia)", region: "Serbia"},
+    {languageAndRegionCode: "sv-SE", regionCode: "SE", languageAndRegion: "Swedish (Sweden)", region: "Sweden"},
+    {languageAndRegionCode: "sw-KE", regionCode: "KE", languageAndRegion: "Swahili (Kenya)", region: "Kenya"},
+    {languageAndRegionCode: "ta-IN", regionCode: "IN", languageAndRegion: "Tamil (India)", region: "India"},
+    {languageAndRegionCode: "te-IN", regionCode: "IN", languageAndRegion: "Telugu (India)", region: "India"},
+    {languageAndRegionCode: "th-TH", regionCode: "TH", languageAndRegion: "Thai (Thailand)", region: "Thailand"},
+    {languageAndRegionCode: "tl-PH", regionCode: "PH", languageAndRegion: "Tagalog (Philippines)", region: "Philippines"},
+    {languageAndRegionCode: "tr-TR", regionCode: "TR", languageAndRegion: "Turkish (Turkey)", region: "Turkey"},
+    {languageAndRegionCode: "ug-CN", regionCode: "CN", languageAndRegion: "Uyghur (China)", region: "China"},
+    {languageAndRegionCode: "uk-UA", regionCode: "UA", languageAndRegion: "Ukrainian (Ukraine)", region: "Ukraine"},
+    {languageAndRegionCode: "ur-PK", regionCode: "PK", languageAndRegion: "Urdu (Pakistan)", region: "Pakistan"},
+    {languageAndRegionCode: "uz-UZ", regionCode: "UZ", languageAndRegion: "Uzbek (Uzbekistan)", region: "Uzbekistan"},
+    {languageAndRegionCode: "vi-VN", regionCode: "VN", languageAndRegion: "Vietnamese (Vietnam)", region: "Vietnam"},
+    {languageAndRegionCode: "zh-CN", regionCode: "CN", languageAndRegion: "Chinese (China)", region: "China"},
+    {languageAndRegionCode: "zh-HK", regionCode: "HK", languageAndRegion: "Chinese (Hong Kong)", region: "Hong Kong"},
+    {languageAndRegionCode: "zh-TW", regionCode: "TW", languageAndRegion: "Chinese (Taiwan)", region: "Taiwan"},
+    {languageAndRegionCode: "zu-ZA", regionCode: "ZA", languageAndRegion: "Zulu (South Africa)", region: "South Africa"},
+];
 
-languageMap.set("af-ZA", "Afrikaans (South Africa)");
-languageMap.set("am-ET", "Amharic (Ethiopia)");
-languageMap.set("ar-AE", "Arabic (United Arab Emirates)");
-languageMap.set("ar-SA", "Arabic (Saudi Arabia)");
-languageMap.set("az-AZ", "Azerbaijani (Azerbaijan)");
-languageMap.set("be-BY", "Belarusian (Belarus)");
-languageMap.set("bg-BG", "Bulgarian (Bulgaria)");
-languageMap.set("bn-BD", "Bengali (Bangladesh)");
-languageMap.set("bs-BA", "Bosnian (Bosnia and Herzegovina)");
-languageMap.set("ca-ES", "Catalan (Spain)");
-languageMap.set("cs-CZ", "Czech (Czech Republic)");
-languageMap.set("cy-GB", "Welsh (United Kingdom)");
-languageMap.set("da-DK", "Danish (Denmark)");
-languageMap.set("de-AT", "German (Austria)");
-languageMap.set("de-CH", "German (Switzerland)");
-languageMap.set("de-DE", "German (Germany)");
-languageMap.set("el-GR", "Greek (Greece)");
-languageMap.set("en-AU", "English (Australia)");
-languageMap.set("en-CA", "English (Canada)");
-languageMap.set("en-GB", "English (United Kingdom)");
-languageMap.set("en-IE", "English (Ireland)");
-languageMap.set("en-IN", "English (India)");
-languageMap.set("en-NZ", "English (New Zealand)");
-languageMap.set("en-US", "English (United States)");
-languageMap.set("es-AR", "Spanish (Argentina)");
-languageMap.set("es-CL", "Spanish (Chile)");
-languageMap.set("es-CO", "Spanish (Colombia)");
-languageMap.set("es-ES", "Spanish (Spain)");
-languageMap.set("es-MX", "Spanish (Mexico)");
-languageMap.set("es-PE", "Spanish (Peru)");
-languageMap.set("et-EE", "Estonian (Estonia)");
-languageMap.set("eu-ES", "Basque (Spain)");
-languageMap.set("fa-IR", "Persian (Iran)");
-languageMap.set("fi-FI", "Finnish (Finland)");
-languageMap.set("fr-BE", "French (Belgium)");
-languageMap.set("fr-CA", "French (Canada)");
-languageMap.set("fr-CH", "French (Switzerland)");
-languageMap.set("fr-FR", "French (France)");
-languageMap.set("ga-IE", "Irish (Ireland)");
-languageMap.set("gl-ES", "Galician (Spain)");
-languageMap.set("gu-IN", "Gujarati (India)");
-languageMap.set("he-IL", "Hebrew (Israel)");
-languageMap.set("hi-IN", "Hindi (India)");
-languageMap.set("hr-HR", "Croatian (Croatia)");
-languageMap.set("hu-HU", "Hungarian (Hungary)");
-languageMap.set("hy-AM", "Armenian (Armenia)");
-languageMap.set("id-ID", "Indonesian (Indonesia)");
-languageMap.set("is-IS", "Icelandic (Iceland)");
-languageMap.set("it-CH", "Italian (Switzerland)");
-languageMap.set("it-IT", "Italian (Italy)");
-languageMap.set("ja-JP", "Japanese (Japan)");
-languageMap.set("jv-ID", "Javanese (Indonesia)");
-languageMap.set("ka-GE", "Georgian (Georgia)");
-languageMap.set("kk-KZ", "Kazakh (Kazakhstan)");
-languageMap.set("km-KH", "Khmer (Cambodia)");
-languageMap.set("kn-IN", "Kannada (India)");
-languageMap.set("ko-KR", "Korean (South Korea)");
-languageMap.set("ku-TR", "Kurdish (Turkey)");
-languageMap.set("ky-KG", "Kyrgyz (Kyrgyzstan)");
-languageMap.set("la-VA", "Latin (Vatican)");
-languageMap.set("lb-LU", "Luxembourgish (Luxembourg)");
-languageMap.set("lo-LA", "Lao (Laos)");
-languageMap.set("lt-LT", "Lithuanian (Lithuania)");
-languageMap.set("lv-LV", "Latvian (Latvia)");
-languageMap.set("mg-MG", "Malagasy (Madagascar)");
-languageMap.set("mk-MK", "Macedonian (North Macedonia)");
-languageMap.set("ml-IN", "Malayalam (India)");
-languageMap.set("mn-MN", "Mongolian (Mongolia)");
-languageMap.set("mr-IN", "Marathi (India)");
-languageMap.set("ms-MY", "Malay (Malaysia)");
-languageMap.set("mt-MT", "Maltese (Malta)");
-languageMap.set("my-MM", "Burmese (Myanmar)");
-languageMap.set("nb-NO", "Norwegian Bokmål (Norway)");
-languageMap.set("ne-NP", "Nepali (Nepal)");
-languageMap.set("nl-BE", "Dutch (Belgium)");
-languageMap.set("nl-NL", "Dutch (Netherlands)");
-languageMap.set("nn-NO", "Norwegian Nynorsk (Norway)");
-languageMap.set("or-IN", "Odia (India)");
-languageMap.set("pa-IN", "Punjabi (India)");
-languageMap.set("pl-PL", "Polish (Poland)");
-languageMap.set("ps-AF", "Pashto (Afghanistan)");
-languageMap.set("pt-BR", "Portuguese (Brazil)");
-languageMap.set("pt-PT", "Portuguese (Portugal)");
-languageMap.set("ro-RO", "Romanian (Romania)");
-languageMap.set("ru-RU", "Russian (Russia)");
-languageMap.set("si-LK", "Sinhala (Sri Lanka)");
-languageMap.set("sk-SK", "Slovak (Slovakia)");
-languageMap.set("sl-SI", "Slovenian (Slovenia)");
-languageMap.set("sq-AL", "Albanian (Albania)");
-languageMap.set("sr-RS", "Serbian (Serbia)");
-languageMap.set("sv-SE", "Swedish (Sweden)");
-languageMap.set("sw-KE", "Swahili (Kenya)");
-languageMap.set("ta-IN", "Tamil (India)");
-languageMap.set("te-IN", "Telugu (India)");
-languageMap.set("th-TH", "Thai (Thailand)");
-languageMap.set("tl-PH", "Tagalog (Philippines)");
-languageMap.set("tr-TR", "Turkish (Turkey)");
-languageMap.set("ug-CN", "Uyghur (China)");
-languageMap.set("uk-UA", "Ukrainian (Ukraine)");
-languageMap.set("ur-PK", "Urdu (Pakistan)");
-languageMap.set("uz-UZ", "Uzbek (Uzbekistan)");
-languageMap.set("vi-VN", "Vietnamese (Vietnam)");
-languageMap.set("zh-CN", "Chinese (China)");
-languageMap.set("zh-HK", "Chinese (Hong Kong)");
-languageMap.set("zh-TW", "Chinese (Taiwan)");
-languageMap.set("zu-ZA", "Zulu (South Africa)");
+export interface LanguageAndRegion {
+    languageAndRegionCode: string
+    regionCode: string
+    languageAndRegion: string
+    region: string
+}

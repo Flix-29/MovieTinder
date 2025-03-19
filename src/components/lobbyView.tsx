@@ -9,7 +9,6 @@ import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {faThumbsUp} from "@fortawesome/free-solid-svg-icons";
 import {movieGenres} from "../model/Genres.ts";
 import {Filter} from "../model/Filter.ts";
-import {getProviderId} from "../model/Provider.ts";
 
 export default function LobbyView() {
     const {id} = useParams();
@@ -140,7 +139,7 @@ export default function LobbyView() {
         if (filter.provider != null) {
             requestUrlWithFilter += `&with_watch_providers=`
             filter.provider.forEach(provider => {
-                requestUrlWithFilter += `${getProviderId(provider).replace(' ', '')}|`
+                requestUrlWithFilter += `${provider.name.replace(' ', '')}|`
             })
             requestUrlWithFilter = requestUrlWithFilter.substring(0, requestUrlWithFilter.length - 1)
         }
