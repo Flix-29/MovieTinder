@@ -3,8 +3,11 @@ import {useState} from "react";
 import {Provider, provider} from "../model/Provider.ts";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEllipsis} from "@fortawesome/free-solid-svg-icons/faEllipsis";
+import * as React from "react";
+import {useNavigate} from "react-router-dom";
 
-export default function CreateLobbyView() {
+export default function CreateLobbyView(): React.ReactElement {
+    const navigate = useNavigate();
     const [language, setLanguage] = useState("en-US");
     const [region, setRegion] = useState("US");
     const [onlyMainProvider, setOnlyMainProvider] = useState(true);
@@ -18,6 +21,10 @@ export default function CreateLobbyView() {
         }
     }
 
+    function createLobby() {
+        return navigate("/join", {state: {language, region, selectedProvider}})
+    }
+
     return (
         <div className="mt-40">
             <h1 className="mb-12 text-5xl font-extrabold leading-none tracking-tight lg:text-6xl">Lobby Setting</h1>
@@ -28,10 +35,12 @@ export default function CreateLobbyView() {
                 className="text-black"
             >
                 <option value="" disabled>Select Language</option>
-                {languageAndRegions.map((item) => (
-                    <option key={item.languageAndRegionCode}
-                            value={item.languageAndRegionCode}>{item.languageAndRegion}</option>
-                ))}
+                {languageAndRegions
+                    .sort((a, b) => a.languageAndRegion > b.languageAndRegion ? 1 : a.languageAndRegion < b.languageAndRegion ? -1 : 0)
+                    .map((item) => (
+                        <option key={item.languageAndRegionCode}
+                                value={item.languageAndRegionCode}>{item.languageAndRegion}</option>
+                    ))}
             </select>
             <br/>
             <label>Select watch region </label>
@@ -58,7 +67,10 @@ export default function CreateLobbyView() {
                             key={provider.id}
                             onClick={() => toggleProvider(provider)}
                         >
-                            <img className={`rounded-full md:w-20 md:h-20 w-15 h-15 m-auto ${selectedProvider.includes(provider) ? null : 'grayscale'}`} src={`https://image.tmdb.org/t/p/original${provider.logoPath}`}/>
+                            <img
+                                className={`rounded-full md:w-20 md:h-20 w-15 h-15 m-auto ${selectedProvider.includes(provider) ? null : 'grayscale'}`}
+                                src={`https://image.tmdb.org/t/p/original${provider.logoPath}`}
+                            />
                             <p className={`text-center ${selectedProvider.includes(provider) ? 'text-white' : 'text-gray-500'}`}>{provider.readableName}</p>
                         </div>
                     )) :
@@ -68,21 +80,33 @@ export default function CreateLobbyView() {
                             key={provider.id}
                             onClick={() => toggleProvider(provider)}
                         >
-                            <img className={`rounded-full md:w-20 md:h-20 w-15 h-15 m-auto ${selectedProvider.includes(provider) ? null : 'grayscale'}`} src={`https://image.tmdb.org/t/p/original${provider.logoPath}`}/>
+                            <img
+                                className={`rounded-full md:w-20 md:h-20 w-15 h-15 m-auto ${selectedProvider.includes(provider) ? null : 'grayscale'}`}
+                                src={`https://image.tmdb.org/t/p/original${provider.logoPath}`}
+                            />
                             <p className={`text-center ${selectedProvider.includes(provider) ? 'text-white' : 'text-gray-500'}`}>{provider.readableName}</p>
                         </div>
                     ))
                 }{
+                <div
+                    className="m-auto mt-0 p-2"
+                    onClick={() => setOnlyMainProvider(!onlyMainProvider)}
+                >
                     <div
-                        className="m-auto mt-0 p-2"
-                        onClick={() => setOnlyMainProvider(!onlyMainProvider)}
-                    >
-                        <div className="flex rounded-full bg-gray-500 md:w-20 md:h-20 w-15 h-15 m-auto items-center justify-center" >
-                            <FontAwesomeIcon icon={faEllipsis} size="3x" />
-                        </div>
-                        <p className="text-center text-white">{onlyMainProvider ? "Show more" : "Show less"}</p>
+                        className="flex rounded-full bg-gray-500 md:w-20 md:h-20 w-15 h-15 m-auto items-center justify-center">
+                        <FontAwesomeIcon icon={faEllipsis} size="3x"/>
                     </div>
-                }
+                    <p className="text-center text-white">{onlyMainProvider ? "Show more" : "Show less"}</p>
+                </div>
+            }
+            </div>
+            <div className="mt-0 p-2">
+                <button
+                    className="bg-rebecca hover:bg-royal-purple text-white font-bold m-auto py-2 px-4 rounded"
+                    onClick={() => createLobby()}
+                >
+                    Create Lobby
+                </button>
             </div>
         </div>
     );

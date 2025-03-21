@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {Dialog, DialogPanel, DialogBackdrop, DialogTitle} from "@headlessui/react";
 import {supabase} from "../database/supabaseClient";
 import Lobby from "../model/Lobby.ts";
@@ -21,6 +21,9 @@ export default function LobbyView() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [matchedMovie, setMatchedMovie] = useState<Movie>();
     const [detailDialogOpen, setDetailDialogOpen] = useState(false);
+
+    const location = useLocation();
+    const { language, region, selectedProvider } = location.state || {};
 
     useEffect(() => {
         const fetchLobby = async () => {
@@ -106,9 +109,10 @@ export default function LobbyView() {
     const fetchMovies = async () => {
         const filter: Filter = {
             include_adult: false,
-            language: "en-US",
+            language: language,
             pageNumber: page,
-            watch_region: "US",
+            watch_region: region,
+            provider: selectedProvider
         }
         const url = applyFilterToRequest("https://api.movie-tinder.flix29.de?", filter)
         const response = await fetch(url, {
@@ -139,7 +143,7 @@ export default function LobbyView() {
         if (filter.provider != null) {
             requestUrlWithFilter += `&with_watch_providers=`
             filter.provider.forEach(provider => {
-                requestUrlWithFilter += `${provider.name.replace(' ', '')}|`
+                requestUrlWithFilter += `${provider.id}|`
             })
             requestUrlWithFilter = requestUrlWithFilter.substring(0, requestUrlWithFilter.length - 1)
         }

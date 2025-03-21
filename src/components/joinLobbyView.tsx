@@ -2,13 +2,16 @@ import {useState} from "react";
 import {createLobby} from "../database/lobbyConnector.ts";
 import {QRCodeCanvas} from "qrcode.react";
 import Lobby from "../model/Lobby.ts";
-import {useNavigate} from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 import {supabase} from "../database/supabaseClient.ts";
 import Toast from "./toast.tsx";
 
 export default function JoinLobbyView() {
     const [lobby, setLobby] = useState<Lobby>();
     const navigate = useNavigate();
+
+    const location = useLocation();
+    const { language, region, selectedProvider } = location.state || {};
 
     const buildLobby = async () => {
         const lobby = await createLobby();
@@ -34,7 +37,7 @@ export default function JoinLobbyView() {
         }
 
         await new Promise(resolve => setTimeout(resolve, 500));
-        navigate(`/lobby/${lobbyId}`);
+        navigate(`/lobby/${lobbyId}`, {state: {language, region, selectedProvider}});
     }
 
     if (lobby === undefined) {

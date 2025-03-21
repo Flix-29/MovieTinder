@@ -5,5 +5,5 @@ export interface Filter {
     language: string
     pageNumber: number
     watch_region: string
-    provider?: Provider[]
+    provider: Provider[]
 }
