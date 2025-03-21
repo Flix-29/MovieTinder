@@ -1,6 +1,8 @@
 import {languageAndRegions} from "../model/Languages.ts";
 import {useState} from "react";
 import {Provider, provider} from "../model/Provider.ts";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEllipsis} from "@fortawesome/free-solid-svg-icons/faEllipsis";
 
 export default function CreateLobbyView() {
     const [language, setLanguage] = useState("en-US");
@@ -70,6 +72,16 @@ export default function CreateLobbyView() {
                             <p className={`text-center ${selectedProvider.includes(provider) ? 'text-white' : 'text-gray-500'}`}>{provider.readableName}</p>
                         </div>
                     ))
+                }{
+                    <div
+                        className="m-auto mt-0 p-2"
+                        onClick={() => setOnlyMainProvider(!onlyMainProvider)}
+                    >
+                        <div className="flex rounded-full bg-gray-500 md:w-20 md:h-20 w-15 h-15 m-auto items-center justify-center" >
+                            <FontAwesomeIcon icon={faEllipsis} size="3x" />
+                        </div>
+                        <p className="text-center text-white">{onlyMainProvider ? "Show more" : "Show less"}</p>
+                    </div>
                 }
             </div>
         </div>
