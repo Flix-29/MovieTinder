@@ -50,7 +50,7 @@ export default function CreateLobbyView(): React.ReactElement {
                 className="text-black"
             >
                 <option value="" disabled>Select watch region</option>
-                {languageAndRegions
+                {Array.from(new Map(languageAndRegions.map(item => [item.region, item])).values())
                     .sort((a, b) => a.region > b.region ? 1 : a.region < b.region ? -1 : 0)
                     .map((item) => {
                         return (
