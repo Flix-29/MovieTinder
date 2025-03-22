@@ -23,7 +23,7 @@ export default function LobbyView() {
     const [detailDialogOpen, setDetailDialogOpen] = useState(false);
 
     const location = useLocation();
-    const { language, region, selectedProvider } = location.state || {};
+    const {language, region, selectedProvider} = location.state || {};
 
     useEffect(() => {
         const fetchLobby = async () => {
@@ -212,9 +212,13 @@ export default function LobbyView() {
                 <div className="flex gap-1 ms-16 md:ms-0 mt-2 text-sm text-left">
                     {currentMovie.genre_ids.map((genreId) => {
                         if (movieGenres.has(genreId)) {
-                            return <span key={genreId} className="text-white bg-gray-500 p-1 rounded-md">{movieGenres.get(genreId)}</span>;
+                            return <span key={genreId} className="text-white bg-gray-500 p-1 rounded-md">
+                                {movieGenres.get(genreId)}
+                            </span>;
                         } else {
-                            return <span key={genreId} className="text-white bg-gray-500 p-1 rounded-md">{genreId}</span>;
+                            return <span key={genreId} className="text-white bg-gray-500 p-1 rounded-md">
+                                {genreId}
+                            </span>;
                         }
                     })}
                 </div>

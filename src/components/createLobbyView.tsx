@@ -22,6 +22,7 @@ export default function CreateLobbyView(): React.ReactElement {
     }
 
     function createLobby() {
+        // TODO: show error message if no selection was made
         return navigate("/join", {state: {language, region, selectedProvider}})
     }
 
@@ -38,8 +39,9 @@ export default function CreateLobbyView(): React.ReactElement {
                 {languageAndRegions
                     .sort((a, b) => a.languageAndRegion > b.languageAndRegion ? 1 : a.languageAndRegion < b.languageAndRegion ? -1 : 0)
                     .map((item) => (
-                        <option key={item.languageAndRegionCode}
-                                value={item.languageAndRegionCode}>{item.languageAndRegion}</option>
+                        <option key={item.languageAndRegionCode} value={item.languageAndRegionCode}>
+                            {item.languageAndRegion}
+                        </option>
                     ))}
             </select>
             <br/>
