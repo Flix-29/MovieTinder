@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {joinLobbyByCode} from "../database/lobbyConnector.ts";
+import {joinLobbyByCode} from "../database/supabaseConnector.ts";
 import {useNavigate} from "react-router-dom";
 import Toast from "./toast.tsx";
 

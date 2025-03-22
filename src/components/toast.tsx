@@ -1,3 +1,4 @@
+// TODO: dismiss toast on click
 export default function Toast({message}: { message: string }) {
     if (!message || message === "") {
         return null;

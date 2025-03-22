@@ -9,6 +9,8 @@ import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {faThumbsUp} from "@fortawesome/free-solid-svg-icons";
 import {movieGenres} from "../model/Genres.ts";
 import {Filter} from "../model/Filter.ts";
+import {createMatch, createVote, fetchLobbyById, fetchVotesForLobbyAndMovieId} from "../database/supabaseConnector.ts";
+import {fetchMoviesFiltered} from "../backend/backendConnector.ts";
 
 export default function LobbyView() {
     const {id} = useParams();
@@ -27,18 +29,9 @@ export default function LobbyView() {
 
     useEffect(() => {
         const fetchLobby = async () => {
-            const {data, error} = await supabase
-                .from("lobbies")
-                .select("*")
-                .eq("id", id)
-                .single();
+            if (!id) return;
 
-            if (error) {
-                throw error;
-            } else {
-                setLobby(data);
-            }
-
+            fetchLobbyById(id).then(setLobby)
             setLoading(false);
         };
 
@@ -78,25 +71,18 @@ export default function LobbyView() {
                 table: "votes",
                 filter: `lobby_id=eq.${lobby?.id}`
             }, async (payload) => {
-                const {data} = await supabase
-                    .from("votes")
-                    .select()
-                    .eq("lobby_id", lobby?.id)
-                    .eq("movie_id", payload.new.movie_id)
-                    .eq("vote", true);
+                if (!lobby || !lobby.id) {
+                    return
+                }
 
-                if (data && data.length >= 2) {
+                const votes = await fetchVotesForLobbyAndMovieId(lobby.id, payload.new.movie_id)
+                if (votes && votes.length >= 2) {
                     const movie = movies.find(movie => movie.id === parseInt(payload.new.movie_id));
-                    await supabase
-                        .from("matches")
-                        .insert({
-                            lobby_id: lobby?.id,
-                            movie_id: movie?.id,
-                            title: movie?.title,
-                            description: movie?.overview
-                        })
-                    setMatchedMovie(movie)
-                    setDialogOpen(true)
+                    if (movie) {
+                        await createMatch(lobby.id, movie)
+                        setMatchedMovie(movie)
+                        setDialogOpen(true)
+                    }
                 }
             })
             .subscribe();
@@ -104,77 +90,29 @@ export default function LobbyView() {
         return () => {
             supabase.removeChannel(likeSubscription);
         }
-    }, [movies, lobby?.id]);
+    }, [lobby, movies, lobby?.id]);
 
     const fetchMovies = async () => {
         const filter: Filter = {
-            include_adult: false,
             language: language,
             pageNumber: page,
             watch_region: region,
             provider: selectedProvider
         }
-        const url = applyFilterToRequest("https://api.movie-tinder.flix29.de?", filter)
-        const response = await fetch(url, {
-            method: "GET",
-        });
 
-        if (!response.ok) {
-            throw new Error("Failed to fetch movies. Status:" + response.status);
-        }
-
-        const movies = await response.json();
-        if (!movies || movies.length === 0 || !movies.results || movies.results.length === 0) {
-            throw new Error("No movies available.");
-        }
-
-        setMovies(movies.results);
+        fetchMoviesFiltered(filter).then(setMovies)
     };
-
-    function applyFilterToRequest(baseUrl: string, filter: Filter): string {
-        let requestUrlWithFilter = baseUrl
-
-        requestUrlWithFilter += `include_adult=${filter.include_adult}`
-        requestUrlWithFilter += `&language=${filter.language}`
-        requestUrlWithFilter += `&page=${filter.pageNumber}`
-        requestUrlWithFilter += `&sort_by=popularity.desc`
-        requestUrlWithFilter += `&watch_region=${filter.watch_region}`
-
-        if (filter.provider != null) {
-            requestUrlWithFilter += `&with_watch_providers=`
-            filter.provider.forEach(provider => {
-                requestUrlWithFilter += `${provider.id}|`
-            })
-            requestUrlWithFilter = requestUrlWithFilter.substring(0, requestUrlWithFilter.length - 1)
-        }
-
-        return requestUrlWithFilter
-    }
 
     const handleVote = async (liked: boolean) => {
         if (!lobby) return;
-        const {error} = await supabase
-            .from("votes")
-            .upsert([
-                {
-                    lobby_id: lobby.id,
-                    user_id: 'ff90c61b-1fb9-4bbe-98d1-89b1dc0bfca8',
-                    movie_id: movies[currentIndex].id,
-                    vote: liked
-                }
-            ]);
-
-        if (error) {
-            throw error;
-        }
-
-        setCurrentIndex(getNextIndex());
+        await createVote(lobby.id, movies[currentIndex].id.toString(), liked)
+        setCurrentIndex(await getNextIndex());
     }
 
-    function getNextIndex(): number {
+    async function getNextIndex(): Promise<number> {
         if (currentIndex + 1 >= movies.length) {
             setPage(page + 1);
-            fetchMovies()
+            await fetchMovies(); // TODO: maybe load next set of movies in the background to avoid waiting, load page 1 and 2 initially and then load page 3 when page 1 is done.
             return 0;
         }
         return currentIndex + 1;
@@ -182,7 +120,7 @@ export default function LobbyView() {
 
     if (loading) return <p>Loading lobby...</p>;
     if (!lobby) return <p>Lobby not found</p>;
-    if (!lobby.started) return <p>Waiting for host to start...</p>;
+    if (!lobby.started) return <p>Waiting for host to start...</p>; // TODO: Beautify, loading spinner
     if (movies.length === 0) return <p>Loading movies...</p>;
 
     const currentMovie = movies[currentIndex];
@@ -211,9 +149,9 @@ export default function LobbyView() {
                 </div>
                 <div className="flex gap-1 ms-16 md:ms-0 mt-2 text-sm text-left">
                     {currentMovie.genre_ids.map((genreId) => {
-                        if (movieGenres.has(genreId)) {
+                        if (movieGenres.find(genre => genre.id === genreId)) {
                             return <span key={genreId} className="text-white bg-gray-500 p-1 rounded-md">
-                                {movieGenres.get(genreId)}
+                                {movieGenres.find(genre => genre.id === genreId)?.name}
                             </span>;
                         } else {
                             return <span key={genreId} className="text-white bg-gray-500 p-1 rounded-md">

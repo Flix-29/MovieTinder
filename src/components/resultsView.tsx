@@ -2,29 +2,17 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {supabase} from "../database/supabaseClient.ts";
 import {Match} from "../model/Match.ts";
+import {deleteFromTableWithColumnIds, fetchMatchesForLobby} from "../database/supabaseConnector.ts";
 
 export default function ResultsView() {
     const {id} = useParams();
     const navigate = useNavigate();
-    const [matches, setMatches] = useState<Array<Match>>([]);
+    const [matches, setMatches] = useState<Match[]>([]);
 
     useEffect(() => {
-        const fetchMatches = async () => {
-            const {data, error} = await supabase
-                .from("matches")
-                .select()
-                .eq("lobby_id", id)
+        fetchMatchesForLobby(id).then(setMatches)
 
-            if (error) {
-                throw error;
-            }
-
-            if (data) {
-                setMatches(data);
-            }
-        }
-
-        fetchMatches()
+        // TODO: not working yet
         const subscription = supabase
             .channel("delete_lobbies")
             .on("postgres_changes", {
@@ -42,63 +30,14 @@ export default function ResultsView() {
     }, [id, navigate]);
 
     async function finishVoting() {
-        const users = await deleteVotes();
-        deleteUser(users);
-        deleteMatches();
-        deleteLobby();
+        // TODO: build general cleanup logic
+        if (id) {
+            await deleteFromTableWithColumnIds('votes', 'lobby_id', Array.of(id));
+            await deleteFromTableWithColumnIds('matches', 'lobby_id', Array.of(id));
+            await deleteFromTableWithColumnIds('lobbies', 'id', Array.of(id));
+        }
 
         navigate("/");
-    }
-
-    async function deleteVotes(): Promise<string[] | undefined> {
-        const {data, error} = await supabase
-            .from("votes")
-            .delete()
-            .eq("lobby_id", id)
-            .select();
-
-        if (error) {
-            throw error;
-        }
-
-        return data?.map(data => data.user_id);
-    }
-
-    async function deleteUser(userIds?: string[]) {
-        if (!userIds) {
-            return
-        }
-
-        const {error} = await supabase
-            .from("users")
-            .delete()
-            .in("id", userIds);
-
-        if (error) {
-            throw error;
-        }
-    }
-
-    async function deleteMatches() {
-        const {error} = await supabase
-            .from("matches")
-            .delete()
-            .eq("lobby_id", id);
-
-        if (error) {
-            throw error;
-        }
-    }
-
-    async function deleteLobby() {
-        const {error} = await supabase
-            .from("lobbies")
-            .delete()
-            .eq("id", id);
-
-        if (error) {
-            throw error;
-        }
     }
 
     return (

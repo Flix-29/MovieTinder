@@ -11,7 +11,7 @@ export default function CreateLobbyView(): React.ReactElement {
     const [language, setLanguage] = useState("en-US");
     const [region, setRegion] = useState("US");
     const [onlyMainProvider, setOnlyMainProvider] = useState(true);
-    const [selectedProvider, setSelectedProvider] = useState<Array<Provider>>([]);
+    const [selectedProvider, setSelectedProvider] = useState<Provider[]>([]);
 
     function toggleProvider(provider: Provider) {
         if (selectedProvider.includes(provider)) {

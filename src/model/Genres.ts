@@ -1,21 +1,26 @@
-export const movieGenres = new Map<number, string>();
+export const movieGenres: Genre[] = [
+    {id: 12, name: "Abenteuer"},
+    {id: 14, name: "Fantasy"},
+    {id: 16, name: "Animation"},
+    {id: 18, name: "Drama"},
+    {id: 27, name: "Horror"},
+    {id: 28, name: "Action"},
+    {id: 35, name: "Komödie"},
+    {id: 36, name: "Historie"},
+    {id: 37, name: "Western"},
+    {id: 53, name: "Thriller"},
+    {id: 80, name: "Krimi"},
+    {id: 99, name: "Dokumentarfilm"},
+    {id: 878, name: "Science Fiction"},
+    {id: 9648, name: "Mystery"},
+    {id: 10402, name: "Musik"},
+    {id: 10749, name: "Liebesfilm"},
+    {id: 10751, name: "Familie"},
+    {id: 10752, name: "Kriegsfilm"},
+    {id: 10770, name: "TV-Film"}
+]
 
-movieGenres.set(12, "Abenteuer");
-movieGenres.set(14, "Fantasy");
-movieGenres.set(16, "Animation");
-movieGenres.set(18, "Drama");
-movieGenres.set(27, "Horror");
-movieGenres.set(28, "Action");
-movieGenres.set(35, "Komödie");
-movieGenres.set(36, "Historie");
-movieGenres.set(37, "Western");
-movieGenres.set(53, "Thriller");
-movieGenres.set(80, "Krimi");
-movieGenres.set(99, "Dokumentarfilm");
-movieGenres.set(878, "Science Fiction");
-movieGenres.set(9648, "Mystery");
-movieGenres.set(10402, "Musik");
-movieGenres.set(10749, "Liebesfilm");
-movieGenres.set(10751, "Familie");
-movieGenres.set(10752, "Kriegsfilm");
-movieGenres.set(10770, "TV-Film");
+export interface Genre {
+    id: number,
+    name: string
+}

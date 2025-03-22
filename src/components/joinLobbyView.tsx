@@ -1,9 +1,8 @@
 import {useState} from "react";
-import {createLobby} from "../database/lobbyConnector.ts";
+import {createLobby, startLobbyWithId} from "../database/supabaseConnector.ts";
 import {QRCodeCanvas} from "qrcode.react";
 import Lobby from "../model/Lobby.ts";
 import {useLocation, useNavigate} from 'react-router-dom'
-import {supabase} from "../database/supabaseClient.ts";
 import Toast from "./toast.tsx";
 
 export default function JoinLobbyView() {
@@ -27,15 +26,7 @@ export default function JoinLobbyView() {
     }
 
     async function startLobby(lobbyId: string) {
-        const {error} = await supabase
-            .from("lobbies")
-            .update({started: true})
-            .eq("id", lobbyId)
-
-        if (error) {
-            throw error;
-        }
-
+        await startLobbyWithId(lobbyId);
         await new Promise(resolve => setTimeout(resolve, 500));
         navigate(`/lobby/${lobbyId}`, {state: {language, region, selectedProvider}});
     }
