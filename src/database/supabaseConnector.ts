@@ -64,7 +64,6 @@ export const startLobbyWithId = async (lobbyId: string) => {
 }
 
 export const fetchMatchesForLobby = async (lobbyId: string | undefined): Promise<Match[]> => {
-    console.log(`Fetching matches for lobby ${lobbyId}`);
     const {data, error} = await supabase
         .from("matches")
         .select()
@@ -106,11 +105,14 @@ export const fetchVotesForLobbyAndMovieId = async (lobbyId: string, movieId: str
 export const createMatch = async (lobbyId: string, movie: Movie) => {
     const {error} = await supabase
         .from("matches")
-        .insert({
+        .upsert({
             lobby_id: lobbyId,
             movie_id: movie.id,
             title: movie.title,
             description: movie.overview
+        }, {
+            ignoreDuplicates: false,
+            onConflict: 'lobby_id, movie_id'
         })
 
     if (error) {
