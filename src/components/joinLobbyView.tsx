@@ -5,13 +5,14 @@ import Lobby from "../model/Lobby.ts";
 import {useLocation, useNavigate} from 'react-router-dom'
 import Toast from "./toast.tsx";
 import {Filter} from "../model/Filter.ts";
+import SpinnerEffect from "./SpinnerEffect.tsx";
 
 export default function JoinLobbyView() {
     const [lobby, setLobby] = useState<Lobby>();
     const navigate = useNavigate();
 
     const location = useLocation();
-    const { language, region, selectedProvider } = location.state || {};
+    const {language, region, selectedProvider} = location.state || {};
 
     const buildLobby = async () => {
         const lobby = await createLobby();
@@ -45,7 +46,10 @@ export default function JoinLobbyView() {
 
     if (lobby === undefined) {
         return (
-            <p>Waiting for Lobby to be created...</p>
+            <div className="flex mt-40 items-center justify-center p-5">
+                <SpinnerEffect/>
+                <p>Waiting for Lobby to be created...</p>
+            </div>
         );
     } else {
         const currentUrl = window.location.href;
@@ -69,7 +73,9 @@ export default function JoinLobbyView() {
                 </div>
                 <button
                     className="bg-maximum-green hover:bg-bud-green text-white font-bold py-2 px-4 rounded"
-                    onClick={() => {startLobby(lobby.id)}}
+                    onClick={() => {
+                        startLobby(lobby.id)
+                    }}
                 >
                     Start Swiping
                 </button>

@@ -5,11 +5,13 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEllipsis} from "@fortawesome/free-solid-svg-icons/faEllipsis";
 import * as React from "react";
 import {useNavigate} from "react-router-dom";
+import Toast from "./toast.tsx";
 
 export default function CreateLobbyView(): React.ReactElement {
     const navigate = useNavigate();
-    const [language, setLanguage] = useState("en-US");
-    const [region, setRegion] = useState("US");
+    const [language, setLanguage] = useState("");
+    const [region, setRegion] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const [onlyMainProvider, setOnlyMainProvider] = useState(true);
     const [selectedProvider, setSelectedProvider] = useState<Provider[]>([]);
 
@@ -22,8 +24,15 @@ export default function CreateLobbyView(): React.ReactElement {
     }
 
     function createLobby() {
-        // TODO: show error message if no selection was made
-        return navigate("/join", {state: {language, region, selectedProvider}})
+        if (!language) {
+            setErrorMessage("Please select a language");
+        } else if (!region) {
+            setErrorMessage("Please select a region");
+        } else if (selectedProvider.length === 0) {
+            setErrorMessage("Please select at least one provider");
+        } else {
+            return navigate("/join", {state: {language, region, selectedProvider}})
+        }
     }
 
     return (
@@ -110,6 +119,7 @@ export default function CreateLobbyView(): React.ReactElement {
                     Create Lobby
                 </button>
             </div>
+            {errorMessage === "" ? null : <Toast message={errorMessage}/>}
         </div>
     );
 };
