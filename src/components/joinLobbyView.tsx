@@ -1,9 +1,10 @@
 import {useState} from "react";
-import {createLobby, startLobbyWithId} from "../database/supabaseConnector.ts";
+import {createFilter, createLobby, startLobbyWithId} from "../database/supabaseConnector.ts";
 import {QRCodeCanvas} from "qrcode.react";
 import Lobby from "../model/Lobby.ts";
 import {useLocation, useNavigate} from 'react-router-dom'
 import Toast from "./toast.tsx";
+import {Filter} from "../model/Filter.ts";
 
 export default function JoinLobbyView() {
     const [lobby, setLobby] = useState<Lobby>();
@@ -19,7 +20,18 @@ export default function JoinLobbyView() {
         } else {
             alert("Error creating lobby");
         }
-    };
+
+        const filter: Filter = {
+            language: language,
+            pageNumber: 1,
+            watch_region: region,
+            provider: selectedProvider
+        }
+
+        if (lobby && lobby.id && filter) {
+            await createFilter(lobby.id, filter);
+        }
+    }
 
     if (!lobby) {
         buildLobby();
@@ -28,7 +40,7 @@ export default function JoinLobbyView() {
     async function startLobby(lobbyId: string) {
         await startLobbyWithId(lobbyId);
         await new Promise(resolve => setTimeout(resolve, 500));
-        navigate(`/lobby/${lobbyId}`, {state: {language, region, selectedProvider}});
+        navigate(`/lobby/${lobbyId}`);
     }
 
     if (lobby === undefined) {

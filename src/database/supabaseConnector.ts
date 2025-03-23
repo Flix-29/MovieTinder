@@ -3,6 +3,7 @@ import Lobby from "../model/Lobby.ts";
 import {Match} from "../model/Match.ts";
 import Vote from "../model/Vote.ts";
 import {Movie} from "../model/Movie.ts";
+import {Filter} from "../model/Filter.ts";
 
 // TODO: why called twice?
 export const createLobby = async (): Promise<Lobby | null> => {
@@ -135,4 +136,38 @@ export const createVote = async (lobbyId: string, movieId: string, vote: boolean
     if (error) {
         throw error;
     }
+}
+
+export const createFilter = async (lobbyId: string, filter: Filter) => {
+    const {error} = await supabase
+        .from("filter")
+        .upsert({
+            lobby_id: lobbyId,
+            language: filter.language,
+            watch_region: filter.watch_region,
+            provider: JSON.stringify(filter.provider)
+        });
+
+    if (error) {
+        throw error;
+    }
+}
+
+export const fetchFilterForLobby = async (lobbyId: string): Promise<Filter> => {
+    const {data, error} = await supabase
+        .from("filter")
+        .select()
+        .eq("lobby_id", lobbyId)
+        .single();
+
+    if (error) {
+        throw error;
+    }
+
+    return {
+        language: data.language,
+        pageNumber: 1,
+        watch_region: data.watch_region,
+        provider: JSON.parse(data.provider)
+    };
 }

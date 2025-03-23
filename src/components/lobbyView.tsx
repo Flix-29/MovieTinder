@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Dialog, DialogPanel, DialogBackdrop, DialogTitle} from "@headlessui/react";
 import {supabase} from "../database/supabaseClient";
 import Lobby from "../model/Lobby.ts";
@@ -8,8 +8,13 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 import {faThumbsUp} from "@fortawesome/free-solid-svg-icons";
 import {movieGenres} from "../model/Genres.ts";
-import {Filter} from "../model/Filter.ts";
-import {createMatch, createVote, fetchLobbyById, fetchVotesForLobbyAndMovieId} from "../database/supabaseConnector.ts";
+import {
+    createMatch,
+    createVote,
+    fetchFilterForLobby,
+    fetchLobbyById,
+    fetchVotesForLobbyAndMovieId
+} from "../database/supabaseConnector.ts";
 import {fetchMoviesFiltered} from "../backend/backendConnector.ts";
 
 export default function LobbyView() {
@@ -24,19 +29,17 @@ export default function LobbyView() {
     const [matchedMovie, setMatchedMovie] = useState<Movie>();
     const [detailDialogOpen, setDetailDialogOpen] = useState(false);
 
-    const location = useLocation();
-    const {language, region, selectedProvider} = location.state || {};
-
     useEffect(() => {
         const fetchLobby = async () => {
             if (!id) return;
 
-            fetchLobbyById(id).then(setLobby)
+            await fetchLobbyById(id).then(setLobby)
             setLoading(false);
         };
 
-        fetchLobby();
-        fetchMovies();
+        if (!lobby) {
+            fetchLobby();
+        }
 
         const subscription = supabase
             .channel("lobby_updates")
@@ -60,7 +63,13 @@ export default function LobbyView() {
         return () => {
             supabase.removeChannel(subscription);
         };
-    }, [id, page]);
+    }, [id, page, lobby]);
+
+    useEffect(() => {
+        if (lobby) {
+            fetchMovies(); // TODO: maybe load next set of movies in the background to avoid waiting, load page 1 and 2 initially and then load page 3 when page 1 is done.
+        }
+    }, [lobby, page]);
 
     useEffect(() => {
         const likeSubscription = supabase
@@ -93,14 +102,11 @@ export default function LobbyView() {
     }, [lobby, movies, lobby?.id]);
 
     const fetchMovies = async () => {
-        const filter: Filter = {
-            language: language,
-            pageNumber: page,
-            watch_region: region,
-            provider: selectedProvider
+        if (lobby && lobby.id) {
+            const filter = await fetchFilterForLobby(lobby.id);
+            filter.pageNumber = page;
+            await fetchMoviesFiltered(filter).then(setMovies)
         }
-
-        fetchMoviesFiltered(filter).then(setMovies)
     };
 
     const handleVote = async (liked: boolean) => {
@@ -111,8 +117,7 @@ export default function LobbyView() {
 
     async function getNextIndex(): Promise<number> {
         if (currentIndex + 1 >= movies.length) {
-            setPage(page + 1);
-            await fetchMovies(); // TODO: maybe load next set of movies in the background to avoid waiting, load page 1 and 2 initially and then load page 3 when page 1 is done.
+            setPage(prevPage => prevPage + 1);
             return 0;
         }
         return currentIndex + 1;
