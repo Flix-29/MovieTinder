@@ -16,6 +16,7 @@ import {
     fetchVotesForLobbyAndMovieId
 } from "../database/supabaseConnector.ts";
 import {fetchMoviesFiltered} from "../backend/backendConnector.ts";
+import SpinnerEffect from "./SpinnerEffect.tsx";
 
 export default function LobbyView() {
     const {id} = useParams();
@@ -123,10 +124,25 @@ export default function LobbyView() {
         return currentIndex + 1;
     }
 
-    if (loading) return <p>Loading lobby...</p>;
+    if (loading) return (
+        <div className="flex mt-40 items-center justify-center p-5">
+            <SpinnerEffect/>
+            <p className="ml-5">Loading lobby...</p>
+        </div>
+    );
     if (!lobby) return <p>Lobby not found</p>;
-    if (!lobby.started) return <p>Waiting for host to start...</p>; // TODO: Beautify, loading spinner
-    if (movies.length === 0) return <p>Loading movies...</p>;
+    if (!lobby.started) return (
+        <div className="flex mt-40 items-center justify-center p-5">
+            <SpinnerEffect/>
+            <p className="ml-5">Waiting for host to start...</p>
+        </div>
+    );
+    if (movies.length === 0) return (
+        <div className="flex mt-40 items-center justify-center p-5">
+            <SpinnerEffect/>
+            <p>Loading movies...</p>
+        </div>
+    );
 
     const currentMovie = movies[currentIndex];
     return (

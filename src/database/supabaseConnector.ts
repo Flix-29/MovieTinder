@@ -138,6 +138,7 @@ export const createVote = async (lobbyId: string, movieId: string, vote: boolean
     }
 }
 
+// TODO: why called twice?
 export const createFilter = async (lobbyId: string, filter: Filter) => {
     const {error} = await supabase
         .from("filter")
