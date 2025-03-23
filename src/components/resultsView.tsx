@@ -35,6 +35,7 @@ export default function ResultsView() {
             await deleteFromTableWithColumnIds('votes', 'lobby_id', Array.of(id));
             await deleteFromTableWithColumnIds('matches', 'lobby_id', Array.of(id));
             await deleteFromTableWithColumnIds('lobbies', 'id', Array.of(id));
+            await deleteFromTableWithColumnIds('filter', 'lobby_id', Array.of(id));
         }
 
         navigate("/");
