@@ -52,7 +52,7 @@ export default function LobbyView() {
             }, (payload) => {
                 const lobby = {
                     id: payload.new.id,
-                    created_at: payload.new.created_at,
+                    created: payload.new.created,
                     name: payload.new.name,
                     code: payload.new.code,
                     started: payload.new.started

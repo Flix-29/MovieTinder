@@ -18,7 +18,7 @@ export const createLobby = async (): Promise<Lobby | null> => {
         throw error;
     }
 
-    return {id: data.id, created_at: data.created_at, name: data.name, code: data.code, started: data.started};
+    return {id: data.id, created: data.created, name: data.name, code: data.code, started: data.started};
 };
 
 export const fetchLobbyById = async (lobbyId: string): Promise<Lobby> => {
@@ -32,7 +32,7 @@ export const fetchLobbyById = async (lobbyId: string): Promise<Lobby> => {
         throw error;
     }
 
-    return {id: data.id, created_at: data.created_at, name: data.name, code: data.code, started: data.started};
+    return {id: data.id, created: data.created, name: data.name, code: data.code, started: data.started};
 };
 
 const generateLobbyCode = () => {
