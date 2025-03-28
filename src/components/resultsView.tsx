@@ -1,6 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {supabase} from "../database/supabaseClient.ts";
 import {Match} from "../model/Match.ts";
 import {deleteFromTableWithColumnIds, fetchMatchesForLobby} from "../database/supabaseConnector.ts";
 
@@ -11,23 +10,7 @@ export default function ResultsView() {
 
     useEffect(() => {
         fetchMatchesForLobby(id).then(setMatches)
-
-        // TODO: not working yet
-        const subscription = supabase
-            .channel("delete_lobbies")
-            .on("postgres_changes", {
-                event: "DELETE",
-                schema: "public",
-                table: "lobbies",
-                filter: `id=eq.${id}`
-            }, () => {
-                navigate("/");
-            })
-
-        return () => {
-            supabase.removeChannel(subscription);
-        }
-    }, [id, navigate]);
+    }, [id]);
 
     async function finishVoting() {
         // TODO: build general cleanup logic
