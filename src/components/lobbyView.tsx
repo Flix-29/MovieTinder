@@ -5,8 +5,7 @@ import {supabase} from "../database/supabaseClient";
 import Lobby from "../model/Lobby.ts";
 import {Movie} from "../model/Movie.ts";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faXmark} from "@fortawesome/free-solid-svg-icons";
-import {faThumbsUp} from "@fortawesome/free-solid-svg-icons";
+import {faThumbsUp, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {movieGenres} from "../model/Genres.ts";
 import {
     createMatch,
@@ -22,10 +21,11 @@ export default function LobbyView() {
     const {id} = useParams();
     const navigate = useNavigate();
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(2);
     const [lobby, setLobby] = useState<Lobby>();
     const [loading, setLoading] = useState(true);
     const [movies, setMovies] = useState<Movie[]>([]);
+    const [nextMovies, setNextMovies] = useState<Movie[]>([]);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [matchedMovie, setMatchedMovie] = useState<Movie>();
     const [detailDialogOpen, setDetailDialogOpen] = useState(false);
@@ -64,13 +64,7 @@ export default function LobbyView() {
         return () => {
             supabase.removeChannel(subscription);
         };
-    }, [id, page, lobby]);
-
-    useEffect(() => {
-        if (lobby) {
-            fetchMovies(); // TODO: maybe load next set of movies in the background to avoid waiting, load page 1 and 2 initially and then load page 3 when page 1 is done.
-        }
-    }, [lobby, page]);
+    }, [id, lobby]);
 
     useEffect(() => {
         const likeSubscription = supabase
@@ -102,26 +96,42 @@ export default function LobbyView() {
         }
     }, [lobby, movies, lobby?.id]);
 
-    const fetchMovies = async () => {
+    useEffect(() => {
+        if (lobby) {
+            fetchMovies(1).then(setMovies);
+            fetchMovies(page).then(setNextMovies);
+        }
+    }, [lobby]);
+
+    const fetchMovies = async (page: number): Promise<Movie[]> => {
         if (lobby && lobby.id) {
             const filter = await fetchFilterForLobby(lobby.id);
             filter.pageNumber = page;
-            await fetchMoviesFiltered(filter).then(setMovies)
+            return await fetchMoviesFiltered(filter)
         }
-    };
+        return [];
+    }
 
     const handleVote = async (liked: boolean) => {
         if (!lobby) return;
         await createVote(lobby.id, movies[currentIndex].id.toString(), liked)
-        setCurrentIndex(await getNextIndex());
+        setCurrentIndex(getNextIndex());
     }
 
-    async function getNextIndex(): Promise<number> {
+    function getNextIndex(): number {
         if (currentIndex + 1 >= movies.length) {
-            setPage(prevPage => prevPage + 1);
+            setMovies(nextMovies);
+            getNextPage();
             return 0;
         }
         return currentIndex + 1;
+    }
+
+    async function getNextPage() {
+        await fetchMovies(page + 1).then(movies => {
+            setNextMovies(movies);
+        });
+        setPage(page + 1);
     }
 
     if (loading) return (
@@ -130,7 +140,7 @@ export default function LobbyView() {
             <p className="ml-5">Loading lobby...</p>
         </div>
     );
-    if (!lobby) return <p>Lobby not found</p>;
+    if (!lobby) return <p className="flex mt-40 items-center justify-center p-5">Lobby not found</p>;
     if (!lobby.started) return (
         <div className="flex mt-40 items-center justify-center p-5">
             <SpinnerEffect/>
