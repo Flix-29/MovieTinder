@@ -1,7 +1,7 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {Match} from "../model/Match.ts";
-import {deleteFromTableWithColumnIds, fetchMatchesForLobby} from "../database/supabaseConnector.ts";
+import {fetchMatchesForLobby} from "../database/supabaseConnector.ts";
 
 export default function ResultsView() {
     const {id} = useParams();
@@ -12,18 +12,6 @@ export default function ResultsView() {
         fetchMatchesForLobby(id).then(setMatches)
     }, [id]);
 
-    async function finishVoting() {
-        // TODO: build general cleanup logic
-        if (id) {
-            await deleteFromTableWithColumnIds('votes', 'lobby_id', Array.of(id));
-            await deleteFromTableWithColumnIds('matches', 'lobby_id', Array.of(id));
-            await deleteFromTableWithColumnIds('lobbies', 'id', Array.of(id));
-            await deleteFromTableWithColumnIds('filter', 'lobby_id', Array.of(id));
-        }
-
-        navigate("/");
-    }
-
     return (
         <div className={"m-4"}>
             {(matches).map((match) => (
@@ -32,7 +20,7 @@ export default function ResultsView() {
                     <p>{match.description}</p>
                 </div>
             ))}
-            <button onClick={finishVoting}>Finish Voting</button>
+            <button onClick={() => navigate("/")}>Finish Voting</button>
         </div>
     )
 }

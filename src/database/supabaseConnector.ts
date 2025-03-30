@@ -77,17 +77,6 @@ export const fetchMatchesForLobby = async (lobbyId: string | undefined): Promise
     return data;
 }
 
-export const deleteFromTableWithColumnIds = async (tableName: string, columnName: string, ids: string[]) => {
-    const {error} = await supabase
-        .from(tableName)
-        .delete()
-        .in(columnName, ids);
-
-    if (error) {
-        throw error;
-    }
-}
-
 export const fetchVotesForLobbyAndMovieId = async (lobbyId: string, movieId: string): Promise<Vote[]> => {
     const {error, data} = await supabase
         .from("votes")
