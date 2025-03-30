@@ -148,9 +148,9 @@ export default function LobbyView() {
     return (
         <div>
             <div
-                className="absolute z-10 top-9/12 md:top-4/5 left-1/2 transform -translate-x-1/2 w-[500px] text-center">
+                className="absolute z-10 max-w-screen top-9/12 md:top-4/5 left-1/2 transform -translate-x-1/2 w-[500px] text-center">
                 <div className="flex">
-                    <h3 className="ms-16 md:ms-0 text-3xl font-bold dark:text-white">
+                    <h3 className="ms-4 max-w-fit md:ms-0 text-3xl font-bold text-gray-200">
                         {currentMovie.title}
                     </h3>
                     <button
