@@ -7,6 +7,7 @@ import {Movie} from "../model/Movie.ts";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faThumbsUp, faXmark} from "@fortawesome/free-solid-svg-icons";
 import {movieGenres} from "../model/Genres.ts";
+import {useSwipeable} from "react-swipeable";
 import {
     createMatch,
     createVote,
@@ -29,6 +30,34 @@ export default function LobbyView() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [matchedMovie, setMatchedMovie] = useState<Movie>();
     const [detailDialogOpen, setDetailDialogOpen] = useState(false);
+    const [swipeDirection, setSwipeDirection] = useState<string>('');
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragDistance, setDragDistance] = useState(0);
+    const handlers = useSwipeable({
+        onSwipedLeft: () => {
+            setSwipeDirection('left');
+            handleVote(false);
+        },
+        onSwipedRight: () => {
+            setSwipeDirection('right');
+            handleVote(true);
+        },
+        onSwiping: (e) => {
+            if (isDragging) {
+                setDragDistance(e.deltaX);
+            }
+        },
+        onSwipeStart: () => setIsDragging(true),
+        onTouchEndOrOnMouseUp: () => {
+            setIsDragging(false);
+            setDragDistance(0);
+            setSwipeDirection('');
+        },
+        trackMouse: true,
+        swipeDuration: 500,
+        delta: 50,
+        rotationAngle: 0
+    });
 
     useEffect(() => {
         const fetchLobby = async () => {
@@ -156,7 +185,7 @@ export default function LobbyView() {
 
     const currentMovie = movies[currentIndex];
     return (
-        <div>
+        <div {...handlers}>
             <div
                 className="absolute z-10 max-w-screen top-9/12 md:top-4/5 left-1/2 transform -translate-x-1/2 w-[500px] text-center">
                 <div className="flex">
@@ -206,10 +235,15 @@ export default function LobbyView() {
                     </button>
                 </div>
             </div>
-            <img
-                className="m-auto h-screen max-w-screen"
-                src={"https://image.tmdb.org/t/p/original/" + currentMovie.poster_path}
-            />
+            <div className={`transition-transform duration-300 ${isDragging ? `translate-x-[${dragDistance}px]` :
+                swipeDirection === 'left' ? '-translate-x-full' :
+                    swipeDirection === 'right' ? 'translate-x-full' : ''
+            }`}>
+                <img
+                    className="m-auto h-screen max-w-screen transition-transform"
+                    src={"https://image.tmdb.org/t/p/original/" + currentMovie.poster_path}
+                />
+            </div>
             <Dialog open={detailDialogOpen} onClose={setDetailDialogOpen} className={"relative z-20"}>
                 <DialogBackdrop
                     transition
