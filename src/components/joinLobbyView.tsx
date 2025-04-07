@@ -56,7 +56,7 @@ export default function JoinLobbyView() {
         const linkToLobby = `${currentUrl.substring(0, currentUrl.lastIndexOf("/#/"))}/#/lobby/${lobby.id}`;
         const codeFigures = lobby.code.toString().split("");
         return (
-            <div className="mt-32">
+            <div className="h-screen mt-32">
                 <h1 className="mb-12 text-5xl font-extrabold leading-none tracking-tight lg:text-6xl">Lobby
                     created!</h1>
                 <p className="mb-5">Join the Lobby by entering the code or scanning the QR-code below.</p>

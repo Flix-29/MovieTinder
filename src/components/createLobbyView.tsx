@@ -36,7 +36,7 @@ export default function CreateLobbyView(): React.ReactElement {
     }
 
     return (
-        <div className="mt-40">
+        <div className="h-screen mt-40">
             <h1 className="mb-12 text-5xl font-extrabold leading-none tracking-tight lg:text-6xl">Lobby Setting</h1>
             <label>Select Language </label>
             <select

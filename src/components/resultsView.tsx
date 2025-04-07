@@ -13,7 +13,7 @@ export default function ResultsView() {
     }, [id]);
 
     return (
-        <div className={"m-4"}>
+        <div className={"h-screen m-4"}>
             {(matches).map((match) => (
                 <div key={match.id} className={"bg-gray-700 text-white p-3.5 m-2 rounded-lg"}>
                     <h3>{match.title}</h3>

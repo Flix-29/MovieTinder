@@ -19,7 +19,7 @@ export default function HomeView() {
     };
 
     return (
-        <div className="mt-40">
+        <div className="h-screen mt-40">
             <div className="mb-16">
                 <h1 className="mb-12 text-5xl font-extrabold leading-none tracking-tight lg:text-6xl">Movie Tinder</h1>
                 <p className="text-xl m-auto mb-3 max-w-3/5">Swipe on movies to find some you all like.</p>
