@@ -21,28 +21,32 @@ import SpinnerEffect from "./SpinnerEffect.tsx";
 export default function LobbyView() {
     const {id} = useParams();
     const navigate = useNavigate();
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [page, setPage] = useState(2);
+    const [currentIndex, setCurrentIndex] = useState<number>(0);
+    const [page, setPage] = useState<number>(2);
     const [lobby, setLobby] = useState<Lobby>();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState<boolean>(true);
     const [movies, setMovies] = useState<Movie[]>([]);
     const [nextMovies, setNextMovies] = useState<Movie[]>([]);
-    const [dialogOpen, setDialogOpen] = useState(false);
+    const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const [matchedMovie, setMatchedMovie] = useState<Movie>();
-    const [detailDialogOpen, setDetailDialogOpen] = useState(false);
+    const [detailDialogOpen, setDetailDialogOpen] = useState<boolean>(false);
     const [swipeDirection, setSwipeDirection] = useState<string>('');
-    const [isDragging, setIsDragging] = useState(false);
-    const [dragDistance, setDragDistance] = useState(0);
+    const [isDragging, setIsDragging] = useState<boolean>(false);
+    const [dragDistance, setDragDistance] = useState<number>(0);
     const handlers = useSwipeable({
         onSwipedLeft: () => {
-            setSwipeDirection('left');
             handleVote(false);
         },
         onSwipedRight: () => {
-            setSwipeDirection('right');
             handleVote(true);
         },
         onSwiping: (e) => {
+            if (e.deltaX > 0 && swipeDirection !== 'right') {
+                setSwipeDirection('right');
+            } else if (e.deltaX < 0 && swipeDirection !== 'left') {
+                setSwipeDirection('left');
+            }
+
             if (isDragging) {
                 setDragDistance(e.deltaX);
             }
@@ -185,7 +189,7 @@ export default function LobbyView() {
 
     const currentMovie = movies[currentIndex];
     return (
-        <div {...handlers}>
+        <div {...handlers} className="max-w-screen overflow-hidden">
             <div
                 className="absolute z-10 max-w-screen top-9/12 md:top-4/5 left-1/2 transform -translate-x-1/2 w-[500px] text-center">
                 <div className="flex">
@@ -222,23 +226,24 @@ export default function LobbyView() {
                 </div>
                 <div className="flex justify-center space-x-64 md:space-x-80 mt-5">
                     <button
-                        className="bg-gray-500 w-12 h-12 rounded-full"
+                        className={`bg-gray-500 ${isDragging ? swipeDirection === 'left' ? "w-16 h-16" : "w-12 h-12" : "w-14 h-14"} rounded-full`}
                         onClick={() => handleVote(false)}
                     >
-                        <FontAwesomeIcon icon={faXmark} size="2xl" className="text-red-600 m-2"/>
+                        <FontAwesomeIcon icon={faXmark}
+                                         size={isDragging ? swipeDirection === 'left' ? "3x" : "xl" : "2xl"}
+                                         className="text-red-600 m-2"/>
                     </button>
                     <button
-                        className="bg-gray-500 w-12 h-12 rounded-full"
+                        className={`bg-gray-500 ${isDragging ? swipeDirection === 'right' ? "w-16 h-16" : "w-12 h-12" : "w-14 h-14"} rounded-full`}
                         onClick={() => handleVote(true)}
                     >
-                        <FontAwesomeIcon icon={faThumbsUp} size="xl" className="text-maximum-green m-2"/>
+                        <FontAwesomeIcon icon={faThumbsUp}
+                                         size={isDragging ? swipeDirection === 'right' ? "2xl" : "lg" : "xl"}
+                                         className="text-maximum-green m-2"/>
                     </button>
                 </div>
             </div>
-            <div className={`transition-transform duration-300 ${isDragging ? `translate-x-[${dragDistance}px]` :
-                swipeDirection === 'left' ? '-translate-x-full' :
-                    swipeDirection === 'right' ? 'translate-x-full' : ''
-            }`}>
+            <div style={{transform: `translateX(${isDragging ? dragDistance : 0}px)`}}>
                 <img
                     className="m-auto h-screen max-w-screen transition-transform"
                     src={"https://image.tmdb.org/t/p/original/" + currentMovie.poster_path}
