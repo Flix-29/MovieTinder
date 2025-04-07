@@ -189,7 +189,7 @@ export default function LobbyView() {
 
     const currentMovie = movies[currentIndex];
     return (
-        <div {...handlers} className="max-w-screen max-h-screen overflow-hidden">
+        <div {...handlers} className="overflow-hidden">
             <div
                 className="absolute z-10 max-w-screen top-9/12 md:top-4/5 left-1/2 transform -translate-x-1/2 w-[500px] text-center">
                 <div className="flex">
@@ -248,7 +248,7 @@ export default function LobbyView() {
                 style={{transform: `translateX(${isDragging ? dragDistance : 0}px)`}}
             >
                 <img
-                    className="m-auto h-screen max-w-screen transition-transform"
+                    className="m-auto h-dvh max-w-screen transition-transform"
                     src={"https://image.tmdb.org/t/p/original/" + currentMovie.poster_path}
                 />
             </div>

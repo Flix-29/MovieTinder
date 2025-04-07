@@ -13,5 +13,5 @@
 }
 
 body {
-    @apply max-w-4xl min-h-screen mx-auto text-center bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-gray-300
+    @apply max-w-4xl mx-auto text-center bg-gradient-to-b from-gray-900 via-gray-800 to-gray-900 text-gray-300
 }
