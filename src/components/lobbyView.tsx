@@ -211,7 +211,7 @@ export default function LobbyView() {
                         </svg>
                     </button>
                 </div>
-                <div className="flex gap-1 ms-16 md:ms-0 mt-2 text-sm text-left">
+                <div className="flex gap-1 ms-4 md:ms-0 mt-2 text-sm text-left">
                     {currentMovie.genre_ids.map((genreId) => {
                         if (movieGenres.find(genre => genre.id === genreId)) {
                             return <span key={genreId} className="text-white bg-gray-500 p-1 rounded-md">
