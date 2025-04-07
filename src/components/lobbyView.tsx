@@ -189,7 +189,7 @@ export default function LobbyView() {
 
     const currentMovie = movies[currentIndex];
     return (
-        <div {...handlers} className="max-w-screen overflow-hidden">
+        <div {...handlers} className="max-w-screen max-h-screen overflow-hidden">
             <div
                 className="absolute z-10 max-w-screen top-9/12 md:top-4/5 left-1/2 transform -translate-x-1/2 w-[500px] text-center">
                 <div className="flex">
