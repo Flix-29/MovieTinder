@@ -243,7 +243,10 @@ export default function LobbyView() {
                     </button>
                 </div>
             </div>
-            <div style={{transform: `translateX(${isDragging ? dragDistance : 0}px)`}}>
+            <div
+                className={`${swipeDirection === 'left' ? '-rotate-12' : swipeDirection === 'right' ? 'rotate-12' : ''}`}
+                style={{transform: `translateX(${isDragging ? dragDistance : 0}px)`}}
+            >
                 <img
                     className="m-auto h-screen max-w-screen transition-transform"
                     src={"https://image.tmdb.org/t/p/original/" + currentMovie.poster_path}
