@@ -52,12 +52,14 @@ export default function LobbyView() {
             }
         },
         onSwipeStart: () => setIsDragging(true),
-        onTouchEndOrOnMouseUp: () => {
+        onTouchEndOrOnMouseUp: async () => {
+            await new Promise(resolve => setTimeout(resolve, 250));
             setIsDragging(false);
             setDragDistance(0);
             setSwipeDirection('');
         },
-        trackMouse: true,
+        trackMouse: false,
+        preventScrollOnSwipe: true,
         swipeDuration: 500,
         delta: 50,
         rotationAngle: 0
