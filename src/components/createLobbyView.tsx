@@ -9,10 +9,10 @@ import Toast from "./toast.tsx";
 
 export default function CreateLobbyView(): React.ReactElement {
     const navigate = useNavigate();
-    const [language, setLanguage] = useState("");
-    const [region, setRegion] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-    const [onlyMainProvider, setOnlyMainProvider] = useState(true);
+    const [language, setLanguage] = useState<string>(navigator.language);
+    const [region, setRegion] = useState<string>(navigator.language.split('-')[1]);
+    const [errorMessage, setErrorMessage] = useState<string>("");
+    const [onlyMainProvider, setOnlyMainProvider] = useState<boolean>(true);
     const [selectedProvider, setSelectedProvider] = useState<Provider[]>([]);
 
     function toggleProvider(provider: Provider) {
@@ -40,7 +40,7 @@ export default function CreateLobbyView(): React.ReactElement {
             <h1 className="mb-12 text-5xl font-extrabold leading-none tracking-tight lg:text-6xl">Lobby Setting</h1>
             <label>Select Language </label>
             <select
-                defaultValue=""
+                defaultValue={language}
                 onChange={(language => setLanguage(language.target.value))}
                 className="text-black"
             >
@@ -56,7 +56,7 @@ export default function CreateLobbyView(): React.ReactElement {
             <br/>
             <label>Select watch region </label>
             <select
-                defaultValue=""
+                defaultValue={region}
                 onChange={(language => setRegion(language.target.value))}
                 className="text-black"
             >
