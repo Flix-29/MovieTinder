@@ -215,13 +215,10 @@ export default function LobbyView() {
                 </div>
                 <div className="flex gap-1 ms-4 md:ms-0 mt-2 text-sm text-left">
                     {currentMovie.genre_ids.map((genreId) => {
-                        if (movieGenres.find(genre => genre.id === genreId)) {
-                            return <span key={genreId} className="text-white bg-gray-500 p-1 rounded-md">
-                                {movieGenres.find(genre => genre.id === genreId)?.name}
-                            </span>;
-                        } else {
-                            return <span key={genreId} className="text-white bg-gray-500 p-1 rounded-md">
-                                {genreId}
+                        const genre = movieGenres.find(genre => genre.id === genreId);
+                        if (genre) {
+                            return <span key={genreId} className="text-white bg-gray-500 p-0.5 rounded-md" style={{border: genre?.color, borderStyle: 'solid', borderWidth: '3px'}}>
+                                {genre?.name}
                             </span>;
                         }
                     })}
