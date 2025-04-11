@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-export default function Toast({message, onDismiss}: { message: string, onDismiss: () => void }) {
+export default function Toast({message, onDismiss}: { message: string, onDismiss?: () => void }) {
     const [show, setShow] = useState(true);
 
     if (!message || message === "") {
@@ -24,7 +24,9 @@ export default function Toast({message, onDismiss}: { message: string, onDismiss
                 <button type="button"
                         onClick={() => {
                             setShow(!show)
-                            onDismiss()
+                            if (onDismiss) {
+                                onDismiss()
+                            }
                         }}
                         className="ms-auto -mx-1.5 -my-1.5 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 inline-flex items-center justify-center h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700"
                         aria-label="Close">
