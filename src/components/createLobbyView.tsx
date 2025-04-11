@@ -119,7 +119,9 @@ export default function CreateLobbyView(): React.ReactElement {
                     Create Lobby
                 </button>
             </div>
-            {errorMessage === "" ? null : <Toast message={errorMessage}/>}
+            {errorMessage && (
+                <Toast message={errorMessage} onDismiss={() => setErrorMessage("")} />
+            )}
         </div>
     );
 };
