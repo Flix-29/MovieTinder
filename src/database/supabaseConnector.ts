@@ -5,7 +5,6 @@ import Vote from "../model/Vote.ts";
 import {Movie} from "../model/Movie.ts";
 import {Filter} from "../model/Filter.ts";
 
-// TODO: why called twice?
 export const createLobby = async (): Promise<Lobby | null> => {
     const code = generateLobbyCode();
     const {data, error} = await supabase
@@ -127,7 +126,6 @@ export const createVote = async (lobbyId: string, movieId: string, vote: boolean
     }
 }
 
-// TODO: why called twice?
 export const createFilter = async (lobbyId: string, filter: Filter) => {
     const {error} = await supabase
         .from("filter")

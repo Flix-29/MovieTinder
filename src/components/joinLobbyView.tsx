@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {createFilter, createLobby, startLobbyWithId} from "../database/supabaseConnector.ts";
 import {QRCodeCanvas} from "qrcode.react";
 import Lobby from "../model/Lobby.ts";
@@ -34,9 +34,11 @@ export default function JoinLobbyView() {
         }
     }
 
-    if (!lobby) {
-        buildLobby();
-    }
+    useEffect(() => {
+        if (!lobby) {
+            buildLobby();
+        }
+    }, [lobby])
 
     async function startLobby(lobbyId: string) {
         await startLobbyWithId(lobbyId);
