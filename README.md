@@ -1,1 +1,1 @@
-# MovieTinder
+# MovieSwiper

@@ -1,12 +1,12 @@
 {
-  "name": "movietinder",
-  "homepage": "https://movie-tinder.flix29.de",
+  "name": "movieswiper",
+  "homepage": "https://movie-swiper.flix29.de",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist --cname movie-tinder.flix29.de",
+    "deploy": "gh-pages -d dist --cname movie-swiper.flix29.de",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

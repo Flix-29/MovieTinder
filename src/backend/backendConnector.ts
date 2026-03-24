@@ -2,7 +2,7 @@ import {Filter} from "../model/Filter.ts";
 import {Movie} from "../model/Movie.ts";
 
 export async function fetchMoviesFiltered(filter: Filter): Promise<Movie[]> {
-    const url = applyFilterToRequest("https://api.movie-tinder.flix29.de?", filter)
+    const url = applyFilterToRequest("https://api.movie-swiper.flix29.de?", filter)
     const response = await fetch(url, {
         method: "GET",
     });
